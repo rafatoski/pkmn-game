@@ -1,0 +1,185 @@
+/* 
+   CSS Styles for Pokémon Game Simulator
+   Author: Rafael Castillo
+   Description: Hoja de estilos para el simulador de juego de Pokémon.
+   Version: 1.0
+   Last Updated: Junio 2024
+   -----------------------------------------------
+   Este archivo contiene estilos CSS para el simulador de juego de Pokémon.
+*/
+
+/* Importacion del reset para los exploradores */
+
+@import url(assets/css/reset.css);
+
+/* Estilos custom */
+
+:root {
+    --blanco: #fafafa;
+    --negro: #101020;
+    --verde: #02E2BA;
+    --radius: 5px;
+}
+
+body{
+    font-family: system-ui, 'Inter', sans-serif;
+    font-size: 14px;
+    background-image:url(assets/images/fondo_tile.png);
+    background-repeat: repeat;
+    color: var(--negro);
+    margin: 0;
+}
+ 
+ 
+header {
+    background-color:var(--blanco);  
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+ 
+.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Espacio entre el ícono y el texto */
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.view-menu {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.menu-btn {
+    cursor: pointer;
+}
+
+.menu-items {
+    display:none;
+    flex-direction: column;
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.menu-items li {
+    display: block;
+    border: 1px solid;
+    border-radius: var(--radius);
+    padding: .5rem .7rem;
+    width: 100%;
+    margin-bottom: 1rem; /* Espacio entre elementos del menú */
+}
+
+.menu-items a {
+    color: #111;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu-items.active{
+    display: flex;
+
+    animation: slideDown .3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px); /* Desplazamiento inicial hacia arriba */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Sin desplazamiento final */
+    }
+}
+
+main{
+    margin: 20px auto;
+    background-color: var(--blanco);
+    border: 10px solid #eee;
+    display: block;
+    padding: 20px;
+}
+
+footer{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* Parafernalias */
+
+.titulo{
+    text-align: center;
+    font-size: 3rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom:0;
+}
+
+.subtitulo{
+    text-align: center;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.btn{
+    padding: 16px 20px;
+    display: block;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: var(--radius);
+    color: var(--blanco);
+    background-color: var(--verde);
+    margin: 0 auto;
+}
+
+@media (min-width: 600px) {
+    body{
+        font-size: 17px;
+    }
+    .contenedor{
+        display: block;
+        max-width: 1046px;
+        margin: 0 auto;
+    }
+
+    header{
+        background-color: transparent;
+        margin-top: 15px;
+    }
+    .menu{
+        flex-direction: row;
+    }
+    .menu-btn{display: none;}
+    .menu-items{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap:1.6rem;
+    }
+    .menu-items li{
+        width: auto;
+        padding:0 ;
+        border: none;
+        margin-bottom: 0;
+    }
+}
