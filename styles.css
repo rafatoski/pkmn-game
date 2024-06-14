@@ -30,6 +30,10 @@ body{
     margin: 0;
 }
  
+
+.fw-bold{
+    font-weight: bold;
+}
  
 header {
     background-color:var(--blanco);  
@@ -129,6 +133,7 @@ footer{
     font-weight: 700;
     line-height: normal;
     margin-bottom:0;
+    margin-top: 0;
 }
 
 .subtitulo{
@@ -137,6 +142,8 @@ footer{
     font-style: normal;
     font-weight: 700;
     line-height: 1;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .btn{
@@ -152,6 +159,47 @@ footer{
     margin: 0 auto;
 }
 
+.autor_card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.autor_avatar{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: var(--radius);
+    border: 2px solid #eee;
+    max-width: 250px;
+}
+
+.autor_avatar img{
+    display: block;
+    width: 100%;
+}
+.autor_avatar ul{
+    display: flex;
+    margin: 0  auto;
+    align-items: center;
+    list-style-type: none;
+    justify-content: center;
+    margin-block-start: 0;
+    padding-inline-start: 0;/* Esto es por el explorador*/
+}
+.autor_avatar ul>li>a{
+    display: block;
+    padding: .5em;
+}
+.autor_desc{
+    padding: 20px;
+    width: fit-content;
+    text-align: start;
+}
+/* ==== */
 @media (min-width: 600px) {
     body{
         font-size: 17px;
@@ -182,4 +230,5 @@ footer{
         border: none;
         margin-bottom: 0;
     }
+    .autor_card{flex-direction: row;}
 }
