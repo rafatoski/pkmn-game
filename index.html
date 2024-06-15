@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokemon Game - Simulator</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/pokeball.ico">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,15 +14,7 @@
         <nav class="menu ">
             <div class="view-menu">
                 <a href="#" class="brand">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="25" viewBox="0 0 27 25" fill="none">
-                        <path d="M0 12.5C0 5.59644 5.59644 0 12.5 0H13.5204C20.424 0 26.0204 5.59644 26.0204 12.5C26.0204 19.4036 20.424 25 13.5204 25H12.5C5.59645 25 0 19.4036 0 12.5Z" fill="url(#paint0_linear_37_3)"/>
-                        <defs>
-                            <linearGradient id="paint0_linear_37_3" x1="13.0102" y1="25" x2="13.0102" y2="0" gradientUnits="userSpaceOnUse">
-                                <stop offset="0.5" stop-color="#EFEFEF"/>
-                                <stop offset="0.5001" stop-color="#FF0B0B"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
+                    <img src="/assets/images/pokeball.ico" alt="">
                     PKMN Battle
                 </a>
                 <button class="menu-btn" aria-label="Toggle Menu">
@@ -39,12 +34,62 @@
     </header>
     
     <main class="contenedor">
-
-        <h2 class="titulo">Juego de Batalla Pokemon</h2>
-        <h3 class="subtitulo">Selecciona tu Pokemon</h3>
-
-        <button class="btn">Empezar</button>
-
+        <div id="nombre-jugador" style="">
+            <section class="margin-y">
+                <h2 class="titulo">Bienvenido al Juego de Batalla Pokemon</h2>
+                <h3 class="subtitulo">Por favor escribe tu nombre de entrenador: </h3>
+            </section>
+            <section class="nombre-container">
+                <div class="input-group margin-y">
+                    <form>
+                        <input id="nombreUsuario" type="text" class="nombreUsuario"  placeholder="Tu Nombre" required>
+                    </form>
+                </div>
+            </section>
+            <button id="btn-nombre" class="btn" disabled> Vamos allá! </button>
+        </div>
+        <div id="seleccionar-pkmn" style="display: none;">
+            <section class="margin-y">
+                <h2 class="titulo">Estupendo <span id="entrenador" class="entrenador"></span>, empezemos</h2>
+                <h3 class="subtitulo">Selecciona a tu Pokemon</h3>
+            </section>
+            <section class="pokemon-container">
+                <div class="pokemon-card" data-pokemon="charmander">
+                    <img src="/assets/images/pic-char.png" alt="Charmander">
+                    <p class="tipo"> Fuego </p>
+                    <h4> Charmander</h4>
+                </div>
+                <div class="pokemon-card" data-pokemon="squirtle">
+                    <img src="/assets/images/pic-squi.png" alt="Squirtle">
+                    <p class="tipo">Agua</p>
+                    <h4> Squirtle </h4>
+                </div>
+                <div class="pokemon-card" data-pokemon="bulbasaur">
+                    <img src="/assets/images/pic-bulb.png" alt="Bulbasaur">
+                    <p class="tipo">Planta</p>
+                    <h4> Bulbasaur </h4>
+                </div>
+                <div class="pokemon-card" data-pokemon="pikachu">
+                    <img src="/assets/images/pic-pika.png" alt="Pikachu">
+                    <p class="tipo">Eléctrico</p>
+                    <h4>Pikachu</h4>
+                </div>
+            </section>
+            <button id="btn-seleccionar" class="btn" disabled>Empezar</button>
+        </div>
+        <div id="resultado" style="display: none;">
+            <section class="margin-y">
+                <h2 class="titulo">Bien Hecho <span   class="entrenador"></span></h2>
+                <h3 class="subtitulo">Tu pokemon fue: <span id="pokemon-seleccionado"></span></h3>
+                <h3 class="subtitulo">Haz logrado conseguir: </h3>
+            </section>
+            <section class="resultado-container">
+                <div class="margin-y">
+                    <h6 class="fw-bold"> 15646561 puntos </h6>
+                </div>
+            </section>
+            <button id="pkmn-seleccionado" class="btn" >Volver a jugar</button>
+        </div>
     </main>
 
     <footer>

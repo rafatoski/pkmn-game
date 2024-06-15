@@ -9,60 +9,61 @@
 */
 
 /* Importacion del reset para los exploradores */
-
 @import url(assets/css/reset.css);
 
 /* Estilos custom */
-
 :root {
     --blanco: #fafafa;
     --negro: #101020;
     --verde: #02E2BA;
+    --font-family: "Press Start 2P", system-ui;
     --radius: 5px;
 }
 
-body{
-    font-family: system-ui, 'Inter', sans-serif;
-    font-size: 14px;
-    background-image:url(assets/images/fondo_tile.png);
+/* Body */
+body {
+    background-image: url(assets/images/fondo_tile.png);
     background-repeat: repeat;
     color: var(--negro);
+    font-family: var(--font-family);
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
     margin: 0;
 }
- 
 
-.fw-bold{
+/* Utility Classes */
+.fw-bold {
     font-weight: bold;
 }
- 
-header {
-    background-color:var(--blanco);  
-    padding: 0.5rem 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+.margin-y {
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
 }
- 
+
+/* Header */
+header {
+    background-color: var(--blanco);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
+}
+
+/* Menu */
 .menu {
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
     margin: 0 auto;
     max-width: 1200px;
 }
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem; /* Espacio entre el ícono y el texto */
-    color: #000;
+.menu a {
+    color: #111;
     font-weight: bold;
     text-decoration: none;
-}
-
-.view-menu {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+    white-space: nowrap;
 }
 
 .menu-btn {
@@ -70,7 +71,7 @@ header {
 }
 
 .menu-items {
-    display:none;
+    display: none;
     flex-direction: column;
     list-style-type: none;
     padding: 0;
@@ -78,25 +79,24 @@ header {
     width: 100%;
 }
 
+.menu-items.active {
+    animation: slideDown .3s ease;
+    display: flex;
+}
+
 .menu-items li {
-    display: block;
     border: 1px solid;
     border-radius: var(--radius);
-    padding: .5rem .7rem;
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.7rem;
     width: 100%;
-    margin-bottom: 1rem; /* Espacio entre elementos del menú */
 }
 
-.menu-items a {
-    color: #111;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.menu-items.active{
+.view-menu {
     display: flex;
-
-    animation: slideDown .3s ease;
+    justify-content: space-between;
+    width: 100%;
 }
 
 @keyframes slideDown {
@@ -110,125 +110,220 @@ header {
     }
 }
 
-main{
-    margin: 20px auto;
+/* Brand */
+.brand {
+    align-items: center;
+    color: #000;
+    display: flex;
+    font-weight: bold;
+    gap: 0.5rem; /* Espacio entre el ícono y el texto */
+    text-decoration: none;
+}
+
+/* Main */
+main {
     background-color: var(--blanco);
     border: 10px solid #eee;
     display: block;
-    padding: 20px;
+    margin: 3rem auto;
+    padding: 3rem 1rem;
 }
 
-footer{
-    text-align: center;
-    font-weight: bold;
+/* Footer */
+footer {
     font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
 }
 
-/* Parafernalias */
-
-.titulo{
-    text-align: center;
-    font-size: 3rem;
+/* Titles */
+.titulo {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-bottom:0;
-    margin-top: 0;
+    margin-bottom: 0.9rem;
+    margin-top: 0.9rem;
+    text-align: center;
 }
 
-.subtitulo{
-    text-align: center;
-    font-size: 2rem;
+.subtitulo {
     font-style: normal;
     font-weight: 700;
     line-height: 1;
-    margin-bottom: 0;
-    margin-top: 0;
+    margin-bottom: 0.9rem;
+    margin-top: 0.9rem;
+    text-align: center;
 }
 
-.btn{
-    padding: 16px 20px;
-    display: block;
-    cursor: pointer;
-    justify-content: center;
+/* Button */
+.btn {
     align-items: center;
-    gap: 10px;
+    background-color: var(--verde);
     border-radius: var(--radius);
     color: var(--blanco);
-    background-color: var(--verde);
-    margin: 0 auto;
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+    gap: 10px;
+    justify-content: center;
+    margin: 1rem auto;
+    padding: 16px 20px;
+    transition: all .2s ease-out;
 }
 
-.autor_card{
+.btn:hover {
+    filter: brightness(0.85);
+}
+
+.btn:disabled{
+    opacity: .8;
+    background-color: gray;
+    border-color: lightgray;
+    color: darkgray;
+}
+
+/* Autor Card */
+.autor_card {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin: 20px auto;
 }
 
-.autor_avatar{
+.autor_avatar {
+    border: 2px solid #eee;
+    border-radius: var(--radius);
     display: flex;
     flex-direction: column;
     gap: 10px;
-    text-align: center;
-    padding: 10px 15px;
-    border-radius: var(--radius);
-    border: 2px solid #eee;
     max-width: 250px;
+    padding: 10px 15px;
+    text-align: center;
 }
 
-.autor_avatar img{
+.autor_avatar img {
     display: block;
     width: 100%;
 }
-.autor_avatar ul{
-    display: flex;
-    margin: 0  auto;
+
+.autor_avatar ul {
     align-items: center;
-    list-style-type: none;
+    display: flex;
     justify-content: center;
+    list-style-type: none;
+    margin: 0 auto;
     margin-block-start: 0;
-    padding-inline-start: 0;/* Esto es por el explorador*/
+    padding-inline-start: 0; /* Esto es por el explorador */
 }
-.autor_avatar ul>li>a{
+
+.autor_avatar ul > li > a {
     display: block;
-    padding: .5em;
+    padding: 0.5em;
 }
-.autor_desc{
+
+.autor_desc {
     padding: 20px;
-    width: fit-content;
     text-align: start;
+    width: fit-content;
 }
-/* ==== */
-@media (min-width: 600px) {
-    body{
+
+
+/* nombre */
+.nombre-container{
+    margin: 2rem auto;
+}
+.nombre-container input[type="text"]{
+    padding:20px;
+    display: block;
+    margin: 5px auto;
+    width: max-content;
+    border: 5px solid var(--verde);
+}
+/* Selección de Pokémon */
+.pokemon-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    justify-content: space-evenly;
+    margin: 2rem auto;
+}
+
+.pokemon-card {
+    background-color: var(--blanco);
+    border: 5px solid #ddd;
+    border-radius: var(--radius);
+    cursor: pointer;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 150px;
+}
+
+.pokemon-card:hover {
+    background-color: #eee;
+    transform: scale(1.01);
+}
+
+.pokemon-card img {
+    height: 100px;
+    width: 100px;
+}
+
+.pokemon-card.selected {
+    background-color: var(--verde);
+    border-color: var(--negro);
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+    body {
         font-size: 17px;
     }
-    .contenedor{
+
+    .contenedor {
         display: block;
-        max-width: 1046px;
         margin: 0 auto;
+        max-width: 1046px;
     }
 
-    header{
+    .margin-y {
+        margin-bottom: 2.5rem;
+        margin-top: 2.5rem;
+    }
+
+    header {
         background-color: transparent;
         margin-top: 15px;
     }
-    .menu{
+
+    .menu {
         flex-direction: row;
+        white-space: nowrap;
     }
-    .menu-btn{display: none;}
-    .menu-items{
+
+    .menu-btn {
+        display: none;
+    }
+
+    .menu-items {
         display: flex;
         flex-direction: row;
+        gap: 1.6rem;
         justify-content: flex-end;
-        gap:1.6rem;
     }
-    .menu-items li{
-        width: auto;
-        padding:0 ;
+
+    .menu-items li {
         border: none;
         margin-bottom: 0;
+        padding: 0;
+        width: auto;
     }
-    .autor_card{flex-direction: row;}
+
+    .autor_card {
+        flex-direction: row;
+    }
+
+    .pokemon-card {
+        width: 200px;
+    }
 }
