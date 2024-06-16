@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* Sonido al seleccionar Pokémon */
     const clickSound = new Audio('/assets/sounds/button-click.wav');
+    const clickNext = new Audio('/assets/sounds/button-next.wav');
 
     /* Obtener elementos del DOM */
     const inputNombre = document.getElementById("nombreUsuario");
@@ -70,6 +71,17 @@ document.addEventListener('DOMContentLoaded', function() {
             seleccionarPkmn.style.display = "none";
             resultado.style.display = "block";
         }
+    });
+
+    /* sonido de siguiente botn */
+    const botones = document.querySelectorAll('.btn-next');
+
+    botones.forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (btn.classList.contains('btn-next')) {
+                clickNext.play();
+            } 
+        });
     });
 
     /* Lógica adicional para el botón "Volver a jugar" si es necesario */
