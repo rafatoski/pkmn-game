@@ -206,7 +206,7 @@ footer {
     display: block;
     font-weight: bold;
     gap: 10px;
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-medium);
     justify-content: center;
     margin: 1rem auto;
     padding: 1rem 1.6rem;
@@ -336,12 +336,13 @@ footer {
 }
 
 .marcador {
-    border: red solid 1px;
+    border: var(--gris-oscuro) solid var(--radius);
     display: flex;
     gap: 1rem;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: .8rem  2rem;
     text-align: center;
+    margin-bottom: 1rem;
 }
 .marcador .heading{
     color: var(--negro);
@@ -351,8 +352,8 @@ footer {
 .options{
     align-items: center;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    flex-direction: row;
+    justify-content:stretch;
     gap: 1rem;
     margin: auto;
 }
@@ -364,6 +365,7 @@ footer {
 
 .options .pkmn.card{
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: start;
     vertical-align: middle;
@@ -374,6 +376,7 @@ footer {
     flex-direction: column;
     padding: .7rem;
     justify-content:space-around;
+    white-space: nowrap;
 }
 .data-pkmn .hp-bar{
     display: block;
@@ -383,7 +386,8 @@ footer {
     background-color:var(--gris-claro);
     margin: 5px 0;
 }
-.data-pkmn #pokemon-seleccionado{ 
+.data-pkmn #pokemon-seleccionado,
+.data-pkmn #pokemon-rival{ 
     line-height: 1.5;
     text-transform: capitalize;
     font-weight: bold;
