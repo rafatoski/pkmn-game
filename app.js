@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     /* Sonido al seleccionar Pokémon */
-    const clickSound = new Audio('/assets/sounds/button-click.wav');
-    const clickNext = new Audio('/assets/sounds/button-next.wav');
+    const clickSound = new Audio('./assets/sounds/button-click.wav');
+    const clickNext = new Audio('./assets/sounds/button-next.wav');
 
     /* Obtener elementos del DOM */
     const inputNombre = document.getElementById("nombreUsuario");
@@ -29,7 +29,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     /* Almacenar nombre en localStorage y avanzar a la siguiente vista */
-    btnNombre.addEventListener("click", function() {
+    btnNombre.addEventListener("submit", function(event) {
+        event.preventDefault();
+        // evita que se envie de forma tradicional
+        
         const nombre = inputNombre.value.trim();
         localStorage.setItem("nombreJugador", nombre);
         nombreJugadorGuardado = nombre;
