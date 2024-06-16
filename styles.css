@@ -129,6 +129,10 @@ main {
     padding: 3rem 1rem;
 }
 
+main>div{
+    margin: auto;
+    max-width: 900px;
+}
 /* Footer */
 footer {
     font-size: 1.1em;
@@ -140,8 +144,8 @@ footer {
 .titulo {
     font-style: normal;
     font-weight: 700;
-    line-height: normal;
-    margin-bottom: 0.9rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
     margin-top: 0.9rem;
     text-align: center;
 }
@@ -149,8 +153,8 @@ footer {
 .subtitulo {
     font-style: normal;
     font-weight: 700;
-    line-height: 1;
-    margin-bottom: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 1.9rem;
     margin-top: 0.9rem;
     text-align: center;
 }
