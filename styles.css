@@ -386,8 +386,8 @@ footer {
     margin: 5px 0;
 }
 .hp-bar{
-    width: 100%;
-    transition: width .3 ease-in-out;
+    width: 100%;    
+    transition: all 0.3s ease;
 }
 
 .hp-bar:after {
@@ -405,7 +405,12 @@ footer {
     margin-bottom: 2rem;
     display: inline-block;
 }
-
+.battle-log{
+    border: 5px solid var(--gris-claro);
+    margin-bottom: 2rem;
+    height: 150px;
+    overflow-y: scroll;
+}
 .moves{
     text-align: center;
 }

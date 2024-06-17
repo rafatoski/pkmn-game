@@ -21,8 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 clickNext.play();
             }
         });
-        });
-
+    });
 
     /* Definir clase Pokemon */
     class Pokemon {
@@ -37,31 +36,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-
     const movimientos = {
         impactrueno: { nombre: 'Impactrueno', dano: 20 },
         lanzallamas: { nombre: 'Lanzallamas', dano: 20 },
         pistolaagua: { nombre: 'Pistola de agua', dano: 20 },
         latigocepa: { nombre: 'Latigo Cepa', dano: 20 },
-        ataquerapido: {nombre: 'Ataque Rápido', dano: 15},
-        golpecuerpo: {nombre: 'Golpe cuerpo' , dano: 15},
-        aranazo: {nombre: 'Arañazo' , dano: 15},
+        ataquerapido: { nombre: 'Ataque Rápido', dano: 15 },
+        golpecuerpo: { nombre: 'Golpe cuerpo', dano: 15 },
+        aranazo: { nombre: 'Arañazo', dano: 15 },
         psiquico: { nombre: 'Psiquico', dano: 50 },
-
-        //agregar mas movimientos aquí
+        // agregar mas movimientos aquí
     }
 
-    console.log('Movimientos cofigurados', movimientos);
-    
-    const pikachu = new Pokemon('Pikachu', 100, [movimientos.impactrueno , movimientos.aranazo]);
-    const charmander = new Pokemon('Charmander', 100, [movimientos.lanzallamas , movimientos.golpecuerpo]);
-    const bulbasaur = new Pokemon('Bulbasaur', 100, [movimientos.latigocepa , movimientos.ataquerapido]);
-    const squirtle = new Pokemon('Squirtle', 100, [movimientos.pistolaagua , movimientos.aranazo]);
+    console.log('Movimientos configurados', movimientos);
+
+    const pikachu = new Pokemon('Pikachu', 100, [movimientos.impactrueno, movimientos.aranazo]);
+    const charmander = new Pokemon('Charmander', 100, [movimientos.lanzallamas, movimientos.golpecuerpo]);
+    const bulbasaur = new Pokemon('Bulbasaur', 100, [movimientos.latigocepa, movimientos.ataquerapido]);
+    const squirtle = new Pokemon('Squirtle', 100, [movimientos.pistolaagua, movimientos.aranazo]);
 
     const pokemones = [pikachu, charmander, bulbasaur, squirtle];
 
     console.log('Pokemones creados', pokemones);
- 
+
     // Seleccionar elementos del DOM
     const onboarding = document.getElementById('onboarding');
     const seleccionarPkmn = document.getElementById('seleccionar-pkmn');
@@ -81,6 +78,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Variables para almacenar el nombre del usuario y el Pokémon seleccionado
     let nombreUsuario = '';
     let pokemonSeleccionado = '';
+    let usuario; // Variable para el Pokémon del usuario
+    let rival; // Variable para el Pokémon del rival
 
     // Evento para avanzar desde la pantalla de onboarding
     btnAvanzar.addEventListener('click', () => {
@@ -93,25 +92,21 @@ document.addEventListener('DOMContentLoaded', function () {
         card.addEventListener('click', () => {
             pokemonSeleccionado = card.getAttribute('data-pokemon');
             clickSound.play();
-            
+
             // Remover la selección previa
             pokemonCards.forEach(c => c.classList.remove('selected'));
-            
+
             // Añadir la clase 'selected' al Pokémon seleccionado
             card.classList.add('selected');
-            
+
             // Habilitar el botón de seleccionar
             btnSeleccionar.disabled = false;
             // Mostrar el Pokémon seleccionado
-           mostrarPokemonSeleccionado(pokemonSeleccionado);
-
+            mostrarPokemonSeleccionado(pokemonSeleccionado);
         });
     });
 
     function mostrarPokemonSeleccionado(pokemonNombre) {
-        // ... (Código para mostrar nombre, imagen, etc.)
-    
-      
         // Obtener el Pokémon seleccionado
         const pokemonSeleccionado = pokemones.find(pokemon => pokemon.nombre === pokemonNombre);
         // Verificar si se encontró el Pokémon
@@ -119,21 +114,22 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error(`No se encontró el Pokémon con nombre: ${pokemonNombre}`);
             return; // Salir de la función si no se encuentra el Pokémon
         }
-      
-        // Obtener el movimiento del Pokémon
+
+        // Obtener los movimientos del Pokémon
         const movimiento1 = pokemonSeleccionado.movimientos[0];
-        const movimiento2 = pokemonSeleccionado.movimientos[1]; // Suponiendo que solo hay un movimiento
-      
+        const movimiento2 = pokemonSeleccionado.movimientos[1];
+
         // Asignar el nombre del movimiento a los botones
         ataqueA.textContent = movimiento1.nombre;
-        ataqueB.textContent = movimiento2.nombre; // Si se quiere mostrar el movimiento en ambos botones
-      }
+        ataqueB.textContent = movimiento2.nombre;
+    }
 
-    // funcion para seleccionar un rival al azar 
+    // función para seleccionar un rival al azar 
     function seleccionarPkmnRival() {
         const randomIndex = Math.floor(Math.random() * pokemones.length);
         return pokemones[randomIndex];
     }
+
     // Cargar el nombre del usuario y el Pokémon seleccionado desde el localStorage (si existen)
     window.addEventListener('load', () => {
         const savedNombreUsuario = localStorage.getItem('nombreUsuario');
@@ -143,8 +139,8 @@ document.addEventListener('DOMContentLoaded', function () {
             nombreUsuario = savedNombreUsuario;
             pokemonSeleccionado = savedPokemonSeleccionado;
 
-            // Selecciona Pokémon rival al azar
-            const rival = seleccionarPkmnRival();
+            // Seleccionar Pokémon rival al azar
+            rival = seleccionarPkmnRival();
             const pokemonRival = rival.nombre;
 
             // Mostrar la pantalla de batalla
@@ -162,12 +158,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Vida inicial de los jugadores
+    let vidaUsuario = 100;
+    let vidaRival = 100;
 
-    // vida inicial de los jugadores
-    let vidaUsuario = 80;
-    let vidaRival = 75;
-
-    //mostrar la vida en la interfaz
+    // Mostrar la vida en la interfaz
     const vidaPkmnUsuario = document.querySelector('.vida-pkmn-user');
     const vidaPkmnRival = document.querySelector('.vida-pkmn-rival');
     const hpBarUsuario = document.querySelector('.hp-bar-usuario');
@@ -184,31 +179,30 @@ document.addEventListener('DOMContentLoaded', function () {
         const porcentajeVida = (vida / 100) * 100;
         hpBar.style.width = porcentajeVida + '%';
 
-        if (vida <= 20){
+        if (vida <= 20) {
             hpBar.style.backgroundColor = 'red';
-        }else {
+        } else {
             hpBar.style.backgroundColor = 'green';
         }
     }
-  
+
     // Evento para guardar el nombre del usuario y el Pokémon seleccionado
     btnSeleccionar.addEventListener('click', (e) => {
         e.preventDefault();
         nombreUsuario = nombreUsuarioInput.value.trim();
 
         if (nombreUsuario && pokemonSeleccionado) {
-            
             // Obtener el Pokémon seleccionado por el usuario desde la lista de Pokémon
             usuario = pokemones.find(pokemon => pokemon.nombre === pokemonSeleccionado);
-            
-            //pokmn rival al azar
+
+            // Pokémon rival al azar
             rival = seleccionarPkmnRival();
-            pokemonRival = rival.nombre;
-            
+            const pokemonRival = rival.nombre;
+
             // Guardar el nombre del usuario y el Pokémon seleccionado
             localStorage.setItem('nombreUsuario', nombreUsuario);
             localStorage.setItem('pokemonSeleccionado', pokemonSeleccionado);
-            
+
             // Mostrar la pantalla de batalla
             seleccionarPkmn.style.display = 'none';
             batalla.style.display = 'block';
@@ -224,73 +218,90 @@ document.addEventListener('DOMContentLoaded', function () {
 
             startBattle();
         }
-
     });
 
-        //funcion de ataque y batalla 
-        function startBattle(){
-            ataqueA.addEventListener('click', () =>{
-                attack(0);
-            });
-            ataqueB.addEventListener('click', ()=>{
-                attack(1);
-            });
-        }
+    // Función de ataque y batalla
+    function startBattle() {
+        ataqueA.addEventListener('click', () => {
+            attack(0);
+        });
+        ataqueB.addEventListener('click', () => {
+            attack(1);
+        });
+    }
 
-        // Function to perform an attack
-        function attack(attackIndex) {
-            // Get the selected attack from the user's Pokemon
-            const userAttack = userPokemon.attacks[attackIndex];  // Replace "userPokemon" with your user's Pokemon variable
-        
-            // Reduce opponent's HP based on the attack damage
-            opponent.hp -= userAttack.damage;
-        
-            // Log the attack message in the battle log
-            logBattle(`${userPokemon.name} usa ${userAttack.name}. ¡Causa ${userAttack.damage} de daño!`);
-        
-            // Update HP display elements
-            updateHp();
-        
-            // Check if opponent is defeated
-            if (opponent.hp <= 0) {
+    // Función para realizar un ataque
+    function attack(attackIndex) {
+        // Obtener el ataque seleccionado del Pokémon del usuario
+        const userAttack = usuario.movimientos[attackIndex];
+
+        // Reducir la HP del oponente basado en el daño del ataque
+        rival.recibirDano(userAttack.dano);
+
+        // Mostrar el mensaje del ataque en el registro de batalla
+        logBattle(`Tu ${usuario.nombre} uso ${userAttack.nombre}, ¡Causo ${userAttack.dano} de daño!`);
+
+        // Actualizar los elementos de visualización de HP
+        actualizarBarraVida(rival.hp, hpBarRival);
+        vidaPkmnRival.textContent = rival.hp;
+
+        // Verificar si el oponente ha sido derrotado
+        if (rival.hp <= 0) {
             endBattle('win');
             return;
-            }
-        
-            // Opponent's random attack
-            const randomAttack = opponent.attacks[Math.floor(Math.random() * opponent.attacks.length)];
-            userPokemon.hp -= randomAttack.damage;
-        
-            // Log opponent's attack message
-            logBattle(`${opponent.name} usa ${randomAttack.name}. ¡Causa ${randomAttack.damage} de daño!`);
-        
-            // Update HP display elements
-            updateHp();
-        
-            // Check if user's Pokemon is defeated
-            if (userPokemon.hp <= 0) {
+        }
+
+        // Ataque aleatorio del oponente
+        const randomAttack = rival.movimientos[Math.floor(Math.random() * rival.movimientos.length)];
+        usuario.recibirDano(randomAttack.dano);
+
+        // Mostrar el mensaje del ataque del oponente en el registro de batalla
+        logBattle(`${rival.nombre} rival uso ${randomAttack.nombre}. ¡Causo ${randomAttack.dano} de daño!`);
+
+        // Actualizar los elementos de visualización de HP
+        actualizarBarraVida(usuario.hp, hpBarUsuario);
+        vidaPkmnUsuario.textContent = usuario.hp;
+
+        // Verificar si el Pokémon del usuario ha sido derrotado
+        if (usuario.hp <= 0) {
             endBattle('lose');
+        }
+    }
+
+    // Función que muestra ataque
+    function logBattle(message) {
+        // Obtener el div del mensaje
+        const logEntry = document.createElement('p');
+        const battleLog = document.getElementById('battle-log');
+        
+        let index = 0;
+
+        function typeCharacter() {
+            if (index < message.length){
+                logEntry.textContent += message[index];
+                index++;
+                // Imprimir
+                battleLog.appendChild(logEntry);
+                setTimeout(typeCharacter, 20) //velocidad de escritura
+            }else {
+                // Scroll
+                battleLog.scrollTop = battleLog.scrollHeight;
             }
         }
-        //funcion que muestra ataque
-        function logBattle(message){
-            const logEntry = document.createElement('p');
-            logEntry.textContent = message;
 
-            //obtener el div del mensaje
-            const battleLog = document.getElementById('battle-log');
+        setTimeout(typeCharacter , 700);        
+    }
 
-            //imprimir
-            battleLog.appendChild(logEntry);
-
-            //scroll
-            battleLog.scrollTop = battleLog.scrollHeight;
-
+    // Función para terminar la batalla
+    function endBattle(result) {
+        if (result === 'win') {
+            logBattle('¡Has ganado la batalla!');
+        } else {
+            logBattle('Has perdido la batalla...');
         }
+    }
 
-    //evento del boton de reset
-
-
+    // Evento del botón de reset
     const btnLimpiarLocalStorage = document.getElementById('btn-limpiar-localStorage');
     btnLimpiarLocalStorage.addEventListener('click', () => {
         localStorage.removeItem('nombreUsuario');
@@ -301,5 +312,4 @@ document.addEventListener('DOMContentLoaded', function () {
         seleccionarPkmn.style.display = 'none';
         batalla.style.display = 'none';
     });
-
 });
