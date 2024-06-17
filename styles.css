@@ -161,8 +161,8 @@ main {
     background-color: var(--blanco);
     border: 10px solid var(--gris-claro);
     display: block;
-    margin: 3rem auto;
-    padding: 3rem 1rem;
+    margin: 1rem auto;
+    padding: 1rem 1rem;
 }
 
 main>div {
@@ -214,6 +214,7 @@ footer {
     padding: 1rem 1.6rem;
     width: fit-content;
     transition: all 0.2s ease-out;
+    white-space: nowrap;
 }
 
 .btn:hover {
@@ -359,13 +360,7 @@ footer {
     gap: .41rem;
     margin: auto;
 }
-
-.options .vs{
-    height: 32px;
-    width: 32px;
-
-    display: none;
-}
+ 
 
 .options .pkmn.card{
     display: flex;
@@ -390,6 +385,18 @@ footer {
     background-color:var(--gris-claro);
     margin: 5px 0;
 }
+.hp-bar{
+    width: 100%;
+    transition: width .3 ease-in-out;
+}
+
+.hp-bar:after {
+    content: '';
+    display: block;
+    height: 100%; 
+    transition: width .3s ease;
+}
+
 .data-pkmn #pokemon-seleccionado,
 .data-pkmn #pokemon-rival{ 
     line-height: 1.5;
@@ -420,6 +427,12 @@ footer {
         display: block;
         margin: 0 auto;
         max-width: 1046px;
+    }
+    main{
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
     }
 
     .margin-y {
@@ -460,11 +473,7 @@ footer {
 
     .autor_card {
         flex-direction: row;
-    }
-    .options .vs{
-        display: inline-block;
-    }
-
+    } 
     .pokemon-card {
         width: var(--card-width-large);
     }

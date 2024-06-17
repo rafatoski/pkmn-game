@@ -96,35 +96,28 @@
                             <h5 class="margin-y-0">Tu Pokemon</h5>
                             <h4 class="margin-y-0"><span id="pokemon-seleccionado"></span></h4>
                             <p class="hp margin-y-0">HP: <span class="vida-pkmn-user">00</span> /100</p>
-                            <div class="hp-bar"></div>
+                            <div class="hp-bar hp-bar-usuario"></div>
                         </div>
 
-                    </div>
-                    <div class="vs">
-                        <i class="bi bi-badge-vo"></i>
-                    </div>
+                    </div> 
                     <div class="pkmn card">
                         <img id="pokemon-rival-img" src="" alt="Pokemon Rival" class="pkmn-user-pic">
                         <div class="data-pkmn">
                             <h5 class="margin-y-0">Pokemon Rival</h5>
                             <h4 class="margin-y-0"><span id="pokemon-rival"></span></h4>
-                            <p class="hp margin-y-0">HP: <span class="vida-pkmn-user">00</span> /100</p>
-                            <div class="hp-bar"></div>
+                            <p class="hp margin-y-0">HP: <span class="vida-pkmn-rival">00</span> /100</p>
+                            <div class="hp-bar hp-bar-rival"></div>
                         </div>
 
                     </div>
                 </div>
                 <div class="moves">
                     <div class="subtitulo txt-center">Selecciona tu movimiento</div>
-                    <div class="ataques ">
-                        <button class="btn ataque-a tipo">
+                    <div class="ataques">
+                        <button class="btn ataque-a tipo" id="ataqueA">
                             <div class="icono"><i class="bi bi-disc"></i></div>
                             <div class="movimiento">Ataque A</div>
-                        </button>
-                        <button class="btn ataque-b tipo">
-                            <div class="icono"><i class="bi bi-disc"></i></div>
-                            <div class="movimiento">Ataque B</div>
-                        </button>
+                        </button> 
                     </div>
                     <div class="margin-y">
                         <button id="btn-limpiar-localStorage" class="btn"> <i class="bi bi-repeat"></i> Reiniciar </button>

@@ -113,9 +113,12 @@ document.addEventListener('DOMContentLoaded', function () {
             // Guardar el nombre del usuario y el Pokémon seleccionado
             localStorage.setItem('nombreUsuario', nombreUsuario);
             localStorage.setItem('pokemonSeleccionado', pokemonSeleccionado);
+            
+            // Obtener el Pokémon seleccionado por el usuario desde la lista de Pokémon
+            usuario = pokemones.find(pokemon => pokemon.nombre === pokemonSeleccionado);
 
             //pokmn rival al azar
-            const rival = seleccionarPkmnRival();
+            rival = seleccionarPkmnRival();
             pokemonRival = rival.nombre;
 
             // Mostrar la pantalla de batalla
@@ -159,9 +162,115 @@ document.addEventListener('DOMContentLoaded', function () {
             pokemonRivalSpan.textContent = pokemonRival;
             pokemonRivalImg.src = `./assets/images/${pokemonRival.toLowerCase()}.png`;
         }
-    }); 
+    });
+
+
+    // vida inicial de los jugadores
+    let vidaUsuario = 80;
+    let vidaRival = 75;
+
+    //mostrar la vida en la interfaz
+    const vidaPkmnUsuario = document.querySelector('.vida-pkmn-user');
+    const vidaPkmnRival = document.querySelector('.vida-pkmn-rival');
+    const hpBarUsuario = document.querySelector('.hp-bar-usuario');
+    const hpBarRival = document.querySelector('.hp-bar-rival');
+
+    vidaPkmnUsuario.textContent = vidaUsuario;
+    vidaPkmnRival.textContent = vidaRival;
+
+    actualizarBarraVida(vidaUsuario, hpBarUsuario);
+    actualizarBarraVida(vidaRival, hpBarRival);
+
+    // Función para actualizar la barra de vida
+    function actualizarBarraVida(vida, hpBar) {
+        const porcentajeVida = (vida / 100) * 100;
+        hpBar.style.width = porcentajeVida + '%';
+
+        if (vida <= 20){
+            hpBar.style.backgroundColor = 'red';
+        }else {
+            hpBar.style.backgroundColor = 'green';
+        }
+    }
+    // batalla
+    let turnoUsuario = true; //controlar el turno
+    let numeroBatallas = 0; //contador de numero d ebatallas
+    let usuario; //pokemon seleccionado por el usuario
+    let rival; //pokemon seleccionado aleatorio para el rival
+
+    //funcion para simular el ataque del pokmon 
+    function atacarPokemon(atacante, defensor, movimiento) {
+        const dano = movimiento.dano;
+
+        defensor.recibirDano(dano);
+        actualizarBarraVida(defensor.hp, atacante === usuario ? hpBarUsuario : hpBarRival);
+        mostrarMovimiento(atacante.nombre, movimiento.nombre, dano);
+    }
+    // Función para mostrar un movimiento en la consola (para propósitos de prueba)
+    function mostrarMovimiento(nombrePokemon, nombreMovimiento, dano) {
+        console.log(`${nombrePokemon} usó ${nombreMovimiento} y causó ${dano} puntos de daño.`);
+    }
+
+    // Función para verificar el fin de la batalla
+    function verificarFinBatalla() {
+        if (vidaUsuario <= 0 || vidaRival <= 0) {
+            numeroBatallas++;
+            if (vidaUsuario <= 0) {
+                alert('¡Pailas, Game Over!');
+            } else {
+                // Cargar un nuevo rival o reiniciar la batalla según tus necesidades
+                alert('¡Batalla finalizada!');
+            }
+        }
+    }
+    // Función para el turno del rival
+    function turnoRival() {
+        const movimientosRival = rival.movimientos;
+        const movimientoAleatorio = movimientosRival[Math.floor(Math.random() * movimientosRival.length)];
+
+        atacarPokemon(rival, usuario, movimientoAleatorio);
+        console.log(`El rival usó ${movimientoAleatorio.nombre}`);
+
+        turnoUsuario = true;
+        verificarFinBatalla();
+    }
+
+    function cicloDeTurnos() {
+        while (vidaUsuario > 0 && vidaRival > 0) {
+            if (!turnoUsuario) {
+                // Turno del rival
+                turnoRival();
+            } else {
+                // Aquí deberías implementar la lógica para mostrar los movimientos del usuario y manejar el evento de clic en los botones de ataque
+                // De momento, solo tienes un movimiento en tu ejemplo, así que lo haré de manera básica
+                mostrarMovimiento(usuario.nombre, usuario.movimientos[0].nombre, usuario.movimientos[0].dano);
+                ataqueA.addEventListener('click', () => {
+                    if (turnoUsuario) {
+                        atacarPokemon(usuario, rival, usuario.movimientos[0]);
+                        turnoUsuario = false; // Cambio al turno del rival después del ataque del usuario
+                        cicloDeTurnos();
+                    }
+                });
+            }
+        }
+        // Mostrar movimientos iniciales del usuario (deberías ajustar esto según tu interfaz)
+        function mostrarMovimientos(pokemon){
+            const movimientosPokemon = pokemon.movimientos;
     
+            //actualiza nombre del ataque en los botones (asumiendo un único botón de ataque en este ejemplo)
+            ataqueA.textContent = movimientosPokemon[0].nombre;
     
+            //agregar evento de ataque en los botones
+            ataqueA.addEventListener('click', () => {
+                if(turnoUsuario) {
+                    atacarPokemon(usuario, rival, movimientosPokemon[0]);
+                    turnoUsuario = false; // Cambio al turno del rival después del ataque del usuario
+                    cicloDeTurnos();
+                }
+            });
+        }
+    }
+
     //evento del boton de reset
 
 
