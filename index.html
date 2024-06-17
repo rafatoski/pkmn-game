@@ -55,22 +55,22 @@
                     <h3 class="subtitulo">Selecciona a tu Pokemon</h3>
                 </section>
                 <section class="pokemon-container">
-                    <div class="pokemon-card card" data-pokemon="charmander">
+                    <div class="pokemon-card card" data-pokemon="Charmander">
                         <img src="./assets/images/charmander.png" alt="Charmander">
                         <p class="tipo"> Fuego </p>
                         <h4> Charmander</h4>
                     </div>
-                    <div class="pokemon-card card" data-pokemon="squirtle">
+                    <div class="pokemon-card card" data-pokemon="Squirtle">
                         <img src="./assets/images/squirtle.png" alt="Squirtle">
                         <p class="tipo">Agua</p>
                         <h4> Squirtle </h4>
                     </div>
-                    <div class="pokemon-card card" data-pokemon="bulbasaur">
+                    <div class="pokemon-card card" data-pokemon="Bulbasaur">
                         <img src="./assets/images/bulbasaur.png" alt="Bulbasaur">
                         <p class="tipo">Planta</p>
                         <h4> Bulbasaur </h4>
                     </div>
-                    <div class="pokemon-card card" data-pokemon="pikachu">
+                    <div class="pokemon-card card" data-pokemon="Pikachu">
                         <img src="./assets/images/pikachu.png" alt="Pikachu">
                         <p class="tipo">Eléctrico</p>
                         <h4>Pikachu</h4>
@@ -113,9 +113,12 @@
                 </div>
                 <div class="moves">
                     <div class="subtitulo txt-center">Selecciona tu movimiento</div>
-                    <div class="ataques">
+                    <div id="attacks" class="ataques">
                         <button class="btn ataque-a tipo" id="ataqueA"> 
-                            movimiento
+                            movimiento A
+                        </button> 
+                        <button class="btn ataque-a tipo" id="ataqueB"> 
+                            movimiento B
                         </button> 
                     </div>
                     <div class="margin-y">
@@ -123,10 +126,7 @@
                     </div>
                 </div>
 
-                <div class="historial bordered">
-                    <!--- historial de movimientos., --->
-
-                </div>
+                <div id="battle-log"></div>
             </div>
         </div>
         <div id="resultado" style="display: none;">

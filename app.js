@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         });
 
- 
+
     /* Definir clase Pokemon */
     class Pokemon {
         constructor(nombre, hp, movimientos) {
@@ -43,17 +43,20 @@ document.addEventListener('DOMContentLoaded', function () {
         lanzallamas: { nombre: 'Lanzallamas', dano: 20 },
         pistolaagua: { nombre: 'Pistola de agua', dano: 20 },
         latigocepa: { nombre: 'Latigo Cepa', dano: 20 },
-        psiquico: { nomnre: 'Psiquico', dano: 50 },
+        ataquerapido: {nombre: 'Ataque Rápido', dano: 15},
+        golpecuerpo: {nombre: 'Golpe cuerpo' , dano: 15},
+        aranazo: {nombre: 'Arañazo' , dano: 15},
+        psiquico: { nombre: 'Psiquico', dano: 50 },
 
         //agregar mas movimientos aquí
     }
 
     console.log('Movimientos cofigurados', movimientos);
     
-    const pikachu = new Pokemon('Pikachu', 100, [movimientos.impactrueno]);
-    const charmander = new Pokemon('Charmander', 100, [movimientos.lanzallamas]);
-    const bulbasaur = new Pokemon('Bulbasaur', 100, [movimientos.latigocepa]);
-    const squirtle = new Pokemon('Squirtle', 100, [movimientos.pistolaagua]);
+    const pikachu = new Pokemon('Pikachu', 100, [movimientos.impactrueno , movimientos.aranazo]);
+    const charmander = new Pokemon('Charmander', 100, [movimientos.lanzallamas , movimientos.golpecuerpo]);
+    const bulbasaur = new Pokemon('Bulbasaur', 100, [movimientos.latigocepa , movimientos.ataquerapido]);
+    const squirtle = new Pokemon('Squirtle', 100, [movimientos.pistolaagua , movimientos.aranazo]);
 
     const pokemones = [pikachu, charmander, bulbasaur, squirtle];
 
@@ -73,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const pokemonRivalSpan = document.getElementById('pokemon-rival');
     const pokemonRivalImg = document.getElementById('pokemon-rival-img');
     const ataqueA = document.getElementById('ataqueA');
+    const ataqueB = document.getElementById('ataqueB');
 
     // Variables para almacenar el nombre del usuario y el Pokémon seleccionado
     let nombreUsuario = '';
@@ -88,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
     pokemonCards.forEach(card => {
         card.addEventListener('click', () => {
             pokemonSeleccionado = card.getAttribute('data-pokemon');
+            clickSound.play();
             
             // Remover la selección previa
             pokemonCards.forEach(c => c.classList.remove('selected'));
@@ -97,8 +102,32 @@ document.addEventListener('DOMContentLoaded', function () {
             
             // Habilitar el botón de seleccionar
             btnSeleccionar.disabled = false;
+            // Mostrar el Pokémon seleccionado
+           mostrarPokemonSeleccionado(pokemonSeleccionado);
+
         });
     });
+
+    function mostrarPokemonSeleccionado(pokemonNombre) {
+        // ... (Código para mostrar nombre, imagen, etc.)
+    
+      
+        // Obtener el Pokémon seleccionado
+        const pokemonSeleccionado = pokemones.find(pokemon => pokemon.nombre === pokemonNombre);
+        // Verificar si se encontró el Pokémon
+        if (!pokemonSeleccionado) {
+            console.error(`No se encontró el Pokémon con nombre: ${pokemonNombre}`);
+            return; // Salir de la función si no se encuentra el Pokémon
+        }
+      
+        // Obtener el movimiento del Pokémon
+        const movimiento1 = pokemonSeleccionado.movimientos[0];
+        const movimiento2 = pokemonSeleccionado.movimientos[1]; // Suponiendo que solo hay un movimiento
+      
+        // Asignar el nombre del movimiento a los botones
+        ataqueA.textContent = movimiento1.nombre;
+        ataqueB.textContent = movimiento2.nombre; // Si se quiere mostrar el movimiento en ambos botones
+      }
 
     // funcion para seleccionar un rival al azar 
     function seleccionarPkmnRival() {
@@ -161,83 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
             hpBar.style.backgroundColor = 'green';
         }
     }
-    // batalla
-    let turnoUsuario = true; //controlar el turno
-    let numeroBatallas = 0; //contador de numero d ebatallas
-    let usuario; //pokemon seleccionado por el usuario
-    let rival; //pokemon seleccionado aleatorio para el rival
-
-    //funcion para simular el ataque del pokmon 
-    function atacarPokemon(atacante, defensor, movimiento) {
-        const dano = movimiento.dano;
-
-        defensor.recibirDano(dano);
-        actualizarBarraVida(defensor.hp, atacante === usuario ? hpBarUsuario : hpBarRival);
-        mostrarMovimiento(atacante.nombre, movimiento.nombre, dano);
-    }
-    // Función para mostrar un movimiento en la consola (para propósitos de prueba)
-    function mostrarMovimiento(nombrePokemon, nombreMovimiento, dano) {
-        console.log(`${nombrePokemon} usó ${nombreMovimiento} y causó ${dano} puntos de daño.`);
-    }
-
-    // Función para verificar el fin de la batalla
-    function verificarFinBatalla() {
-        if (vidaUsuario <= 0 || vidaRival <= 0) {
-            numeroBatallas++;
-            if (vidaUsuario <= 0) {
-                alert('¡Pailas, Game Over!');
-            } else {
-                // Cargar un nuevo rival o reiniciar la batalla según tus necesidades
-                alert('¡Batalla finalizada!');
-            }
-        }
-    }
-
-    // Función para mostrar los movimientos del Pokémon seleccionado por el usuario
-    function mostrarMovimientos() {
-        const movimientosPokemon = usuario.movimientos;
-
-        // Actualizar nombre del ataque en el botón (asumiendo un único botón de ataque en este ejemplo)
-        ataqueA.textContent = movimientosPokemon[0].nombre;
-
-        // Agregar evento de ataque en el botón
-        ataqueA.addEventListener('click', () => {
-            if (turnoUsuario) {
-                atacarPokemon(usuario, rival, movimientosPokemon[0]);
-                turnoUsuario = false; // Cambio al turno del rival después del ataque del usuario
-                cicloDeTurnos(); // Llamar a cicloDeTurnos para continuar con el siguiente turno
-            }
-        });
-    }
-
-    
-    function cicloDeTurnos() {
-        if (turnoUsuario) {
-            // Mostrar movimientos del usuario
-            mostrarMovimientos(usuario);
-        } else {
-            // Turno del rival
-            turnoRival();
-        }
-    }
-    
-    function turnoRival() {
-        const movimientosRival = rival.movimientos;
-        const movimientoAleatorio = movimientosRival[Math.floor(Math.random() * movimientosRival.length)];
-    
-        // Simular el ataque del rival
-        atacarPokemon(rival, usuario, movimientoAleatorio);
-    
-        // Verificar fin de la batalla después del ataque del rival
-        verificarFinBatalla();
-    
-        // Cambiar al turno del usuario
-        turnoUsuario = true;
-    
-        // Iniciar el ciclo de turnos nuevamente (mostrar movimientos del usuario)
-        cicloDeTurnos();
-    }    
-      
+  
     // Evento para guardar el nombre del usuario y el Pokémon seleccionado
     btnSeleccionar.addEventListener('click', (e) => {
         e.preventDefault();
@@ -268,10 +221,73 @@ document.addEventListener('DOMContentLoaded', function () {
             // Mostrar el Pokémon rival
             pokemonRivalSpan.textContent = pokemonRival;
             pokemonRivalImg.src = `./assets/images/${pokemonRival.toLowerCase()}.png`;
+
+            startBattle();
         }
 
-        cicloDeTurnos();
     });
+
+        //funcion de ataque y batalla 
+        function startBattle(){
+            ataqueA.addEventListener('click', () =>{
+                attack(0);
+            });
+            ataqueB.addEventListener('click', ()=>{
+                attack(1);
+            });
+        }
+
+        // Function to perform an attack
+        function attack(attackIndex) {
+            // Get the selected attack from the user's Pokemon
+            const userAttack = userPokemon.attacks[attackIndex];  // Replace "userPokemon" with your user's Pokemon variable
+        
+            // Reduce opponent's HP based on the attack damage
+            opponent.hp -= userAttack.damage;
+        
+            // Log the attack message in the battle log
+            logBattle(`${userPokemon.name} usa ${userAttack.name}. ¡Causa ${userAttack.damage} de daño!`);
+        
+            // Update HP display elements
+            updateHp();
+        
+            // Check if opponent is defeated
+            if (opponent.hp <= 0) {
+            endBattle('win');
+            return;
+            }
+        
+            // Opponent's random attack
+            const randomAttack = opponent.attacks[Math.floor(Math.random() * opponent.attacks.length)];
+            userPokemon.hp -= randomAttack.damage;
+        
+            // Log opponent's attack message
+            logBattle(`${opponent.name} usa ${randomAttack.name}. ¡Causa ${randomAttack.damage} de daño!`);
+        
+            // Update HP display elements
+            updateHp();
+        
+            // Check if user's Pokemon is defeated
+            if (userPokemon.hp <= 0) {
+            endBattle('lose');
+            }
+        }
+        //funcion que muestra ataque
+        function logBattle(message){
+            const logEntry = document.createElement('p');
+            logEntry.textContent = message;
+
+            //obtener el div del mensaje
+            const battleLog = document.getElementById('battle-log');
+
+            //imprimir
+            battleLog.appendChild(logEntry);
+
+            //scroll
+            battleLog.scrollTop = battleLog.scrollHeight;
+
+        }
+
     //evento del boton de reset
 
 
