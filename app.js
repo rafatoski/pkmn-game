@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const pokemonSeleccionadoImg = document.getElementById('pokemon-seleccionado-img');
     const pokemonRivalSpan = document.getElementById('pokemon-rival');
     const pokemonRivalImg = document.getElementById('pokemon-rival-img');
+    const ataqueA = document.getElementById('ataqueA');
 
     // Variables para almacenar el nombre del usuario y el Pokémon seleccionado
     let nombreUsuario = '';
@@ -104,38 +105,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const randomIndex = Math.floor(Math.random() * pokemones.length);
         return pokemones[randomIndex];
     }
-    // Evento para guardar el nombre del usuario y el Pokémon seleccionado
-    btnSeleccionar.addEventListener('click', (e) => {
-        e.preventDefault();
-        nombreUsuario = nombreUsuarioInput.value.trim();
-
-        if (nombreUsuario && pokemonSeleccionado) {
-            // Guardar el nombre del usuario y el Pokémon seleccionado
-            localStorage.setItem('nombreUsuario', nombreUsuario);
-            localStorage.setItem('pokemonSeleccionado', pokemonSeleccionado);
-            
-            // Obtener el Pokémon seleccionado por el usuario desde la lista de Pokémon
-            usuario = pokemones.find(pokemon => pokemon.nombre === pokemonSeleccionado);
-
-            //pokmn rival al azar
-            rival = seleccionarPkmnRival();
-            pokemonRival = rival.nombre;
-
-            // Mostrar la pantalla de batalla
-            seleccionarPkmn.style.display = 'none';
-            batalla.style.display = 'block';
-
-            // Mostrar el nombre del usuario y el Pokémon seleccionado en la pantalla de batalla
-            entrenadorSpan.textContent = nombreUsuario;
-            pokemonSeleccionadoSpan.textContent = pokemonSeleccionado;
-            pokemonSeleccionadoImg.src = `./assets/images/${pokemonSeleccionado}.png`;
-
-            // Mostrar el Pokémon rival
-            pokemonRivalSpan.textContent = pokemonRival;
-            pokemonRivalImg.src = `./assets/images/${pokemonRival.toLowerCase()}.png`;
-        }
-    });
-
     // Cargar el nombre del usuario y el Pokémon seleccionado desde el localStorage (si existen)
     window.addEventListener('load', () => {
         const savedNombreUsuario = localStorage.getItem('nombreUsuario');
@@ -223,54 +192,86 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-    // Función para el turno del rival
+
+    // Función para mostrar los movimientos del Pokémon seleccionado por el usuario
+    function mostrarMovimientos() {
+        const movimientosPokemon = usuario.movimientos;
+
+        // Actualizar nombre del ataque en el botón (asumiendo un único botón de ataque en este ejemplo)
+        ataqueA.textContent = movimientosPokemon[0].nombre;
+
+        // Agregar evento de ataque en el botón
+        ataqueA.addEventListener('click', () => {
+            if (turnoUsuario) {
+                atacarPokemon(usuario, rival, movimientosPokemon[0]);
+                turnoUsuario = false; // Cambio al turno del rival después del ataque del usuario
+                cicloDeTurnos(); // Llamar a cicloDeTurnos para continuar con el siguiente turno
+            }
+        });
+    }
+
+    
+    function cicloDeTurnos() {
+        if (turnoUsuario) {
+            // Mostrar movimientos del usuario
+            mostrarMovimientos(usuario);
+        } else {
+            // Turno del rival
+            turnoRival();
+        }
+    }
+    
     function turnoRival() {
         const movimientosRival = rival.movimientos;
         const movimientoAleatorio = movimientosRival[Math.floor(Math.random() * movimientosRival.length)];
-
+    
+        // Simular el ataque del rival
         atacarPokemon(rival, usuario, movimientoAleatorio);
-        console.log(`El rival usó ${movimientoAleatorio.nombre}`);
-
-        turnoUsuario = true;
+    
+        // Verificar fin de la batalla después del ataque del rival
         verificarFinBatalla();
-    }
-
-    function cicloDeTurnos() {
-        while (vidaUsuario > 0 && vidaRival > 0) {
-            if (!turnoUsuario) {
-                // Turno del rival
-                turnoRival();
-            } else {
-                // Aquí deberías implementar la lógica para mostrar los movimientos del usuario y manejar el evento de clic en los botones de ataque
-                // De momento, solo tienes un movimiento en tu ejemplo, así que lo haré de manera básica
-                mostrarMovimiento(usuario.nombre, usuario.movimientos[0].nombre, usuario.movimientos[0].dano);
-                ataqueA.addEventListener('click', () => {
-                    if (turnoUsuario) {
-                        atacarPokemon(usuario, rival, usuario.movimientos[0]);
-                        turnoUsuario = false; // Cambio al turno del rival después del ataque del usuario
-                        cicloDeTurnos();
-                    }
-                });
-            }
-        }
-        // Mostrar movimientos iniciales del usuario (deberías ajustar esto según tu interfaz)
-        function mostrarMovimientos(pokemon){
-            const movimientosPokemon = pokemon.movimientos;
     
-            //actualiza nombre del ataque en los botones (asumiendo un único botón de ataque en este ejemplo)
-            ataqueA.textContent = movimientosPokemon[0].nombre;
+        // Cambiar al turno del usuario
+        turnoUsuario = true;
     
-            //agregar evento de ataque en los botones
-            ataqueA.addEventListener('click', () => {
-                if(turnoUsuario) {
-                    atacarPokemon(usuario, rival, movimientosPokemon[0]);
-                    turnoUsuario = false; // Cambio al turno del rival después del ataque del usuario
-                    cicloDeTurnos();
-                }
-            });
-        }
-    }
+        // Iniciar el ciclo de turnos nuevamente (mostrar movimientos del usuario)
+        cicloDeTurnos();
+    }    
+      
+    // Evento para guardar el nombre del usuario y el Pokémon seleccionado
+    btnSeleccionar.addEventListener('click', (e) => {
+        e.preventDefault();
+        nombreUsuario = nombreUsuarioInput.value.trim();
 
+        if (nombreUsuario && pokemonSeleccionado) {
+            
+            // Obtener el Pokémon seleccionado por el usuario desde la lista de Pokémon
+            usuario = pokemones.find(pokemon => pokemon.nombre === pokemonSeleccionado);
+            
+            //pokmn rival al azar
+            rival = seleccionarPkmnRival();
+            pokemonRival = rival.nombre;
+            
+            // Guardar el nombre del usuario y el Pokémon seleccionado
+            localStorage.setItem('nombreUsuario', nombreUsuario);
+            localStorage.setItem('pokemonSeleccionado', pokemonSeleccionado);
+            
+            // Mostrar la pantalla de batalla
+            seleccionarPkmn.style.display = 'none';
+            batalla.style.display = 'block';
+
+            // Mostrar el nombre del usuario y el Pokémon seleccionado en la pantalla de batalla
+            entrenadorSpan.textContent = nombreUsuario;
+            pokemonSeleccionadoSpan.textContent = pokemonSeleccionado;
+            pokemonSeleccionadoImg.src = `./assets/images/${pokemonSeleccionado}.png`;
+
+            // Mostrar el Pokémon rival
+            pokemonRivalSpan.textContent = pokemonRival;
+            pokemonRivalImg.src = `./assets/images/${pokemonRival.toLowerCase()}.png`;
+        }
+
+        cicloDeTurnos();
+    });
     //evento del boton de reset
 
 
