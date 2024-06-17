@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokemon Game - Simulator</title>
     <link rel="icon" type="image/x-icon" href="./assets/images/pokeball.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -18,9 +19,7 @@
                     PKMN Battle
                 </a>
                 <button class="menu-btn" aria-label="Toggle Menu">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 13" fill="none">
-                        <path d="M12.3334 10.1666C12.5902 10.1668 12.8371 10.2657 13.0229 10.4429C13.2088 10.6201 13.3194 10.8621 13.3317 11.1186C13.344 11.3751 13.2572 11.6265 13.0892 11.8208C12.9212 12.015 12.685 12.1372 12.4294 12.162L12.3334 12.1666H1.66669C1.40988 12.1665 1.16296 12.0676 0.977096 11.8904C0.791235 11.7132 0.680679 11.4712 0.668338 11.2147C0.655996 10.9582 0.742815 10.7068 0.910804 10.5125C1.07879 10.3183 1.31507 10.1961 1.57069 10.1713L1.66669 10.1666H12.3334ZM12.3334 5.49998C12.5986 5.49998 12.8529 5.60534 13.0405 5.79287C13.228 5.98041 13.3334 6.23476 13.3334 6.49998C13.3334 6.7652 13.228 7.01955 13.0405 7.20709C12.8529 7.39462 12.5986 7.49998 12.3334 7.49998H1.66669C1.40147 7.49998 1.14712 7.39462 0.95958 7.20709C0.772044 7.01955 0.666687 6.7652 0.666687 6.49998C0.666687 6.23476 0.772044 5.98041 0.95958 5.79287C1.14712 5.60534 1.40147 5.49998 1.66669 5.49998H12.3334ZM12.3334 0.833313C12.5986 0.833313 12.8529 0.93867 13.0405 1.12621C13.228 1.31374 13.3334 1.5681 13.3334 1.83331C13.3334 2.09853 13.228 2.35288 13.0405 2.54042C12.8529 2.72796 12.5986 2.83331 12.3334 2.83331H1.66669C1.40147 2.83331 1.14712 2.72796 0.95958 2.54042C0.772044 2.35288 0.666687 2.09853 0.666687 1.83331C0.666687 1.5681 0.772044 1.31374 0.95958 1.12621C1.14712 0.93867 1.40147 0.833313 1.66669 0.833313H12.3334Z" fill="#111111"/>
-                    </svg>
+                    <i class="bi bi-list"></i>
                 </button>
 
             </div>
@@ -33,53 +32,57 @@
     </header>
     
     <main class="contenedor">
-        <div id="nombre-jugador" style="display:block;">
+        <div id="onboarding" style="display: block;">
             <section class="margin-y">
                 <h2 class="titulo">Bienvenido al Juego de Batalla Pokemon</h2>
-                <h3 class="subtitulo">Por favor escribe tu nombre de entrenador: </h3>
             </section>
-            <section class="nombre-container">
-                <div class="input-group margin-y">
-                    <form id="form-nombre">
-                        <input id="nombreUsuario" type="text" class="nombreUsuario"  placeholder="Tu Nombre" required>
-                        <button id="btn-nombre" class="btn btn-next" type="submit" disabled> Vamos allá! </button>
-                    </form>
-                </div>
-            </section>
+            <div class="margin-y txt-center">
+                <p>Architecto ullam provident at sit adipisci consequuntur mollitia ratione officia inventore est amet, ex quidem distinctio labore.</p>
+                <p>Laboriosam in molestias voluptatem! Libero ea nostrum fugit dolorem id nesciunt at quisquam perspiciatis modi!</p>
+            </div>
+            <button id="btn-avanzar" class="btn btn-next"> Vamos allá! </button>
         </div>
         <div id="seleccionar-pkmn" style="display: none;">
-            <section class="margin-y">
-                <h2 class="titulo">Estupendo <span id="entrenador" class="entrenador"></span>, empezemos</h2>
-                <h3 class="subtitulo">Selecciona a tu Pokemon</h3>
+            <form id="user-Name-Pokemon">
+            <section class="nombre-container">
+                <h2 class="titulo">Estupendo, empezemos</h2>
+                <h3 class="subtitulo">Por favor escribe tu nombre de entrenador: </h3>
+                <div class="input-group margin-y">
+                        <input id="nombreUsuario" type="text" class="nombreUsuario"  placeholder="Tu Nombre" required>                       
+                    </div>
+                </section>
+                <section class="margin-y">
+                    <h3 class="subtitulo">Selecciona a tu Pokemon</h3>
+                </section>
+                <section class="pokemon-container">
+                    <div class="pokemon-card card" data-pokemon="charmander">
+                        <img src="./assets/images/charmander.png" alt="Charmander">
+                        <p class="tipo"> Fuego </p>
+                        <h4> Charmander</h4>
+                    </div>
+                    <div class="pokemon-card card" data-pokemon="squirtle">
+                        <img src="./assets/images/squirtle.png" alt="Squirtle">
+                        <p class="tipo">Agua</p>
+                        <h4> Squirtle </h4>
+                    </div>
+                    <div class="pokemon-card card" data-pokemon="bulbasaur">
+                        <img src="./assets/images/bulbasaur.png" alt="Bulbasaur">
+                        <p class="tipo">Planta</p>
+                        <h4> Bulbasaur </h4>
+                    </div>
+                    <div class="pokemon-card card" data-pokemon="pikachu">
+                        <img src="./assets/images/pikachu.png" alt="Pikachu">
+                        <p class="tipo">Eléctrico</p>
+                        <h4>Pikachu</h4>
+                    </div>
             </section>
-            <section class="pokemon-container">
-                <div class="pokemon-card card" data-pokemon="charmander">
-                    <img src="./assets/images/charmander.png" alt="Charmander">
-                    <p class="tipo"> Fuego </p>
-                    <h4> Charmander</h4>
-                </div>
-                <div class="pokemon-card card" data-pokemon="squirtle">
-                    <img src="./assets/images/squirtle.png" alt="Squirtle">
-                    <p class="tipo">Agua</p>
-                    <h4> Squirtle </h4>
-                </div>
-                <div class="pokemon-card card" data-pokemon="bulbasaur">
-                    <img src="./assets/images/bulbasaur.png" alt="Bulbasaur">
-                    <p class="tipo">Planta</p>
-                    <h4> Bulbasaur </h4>
-                </div>
-                <div class="pokemon-card card" data-pokemon="pikachu">
-                    <img src="./assets/images/pikachu.png" alt="Pikachu">
-                    <p class="tipo">Eléctrico</p>
-                    <h4>Pikachu</h4>
-                </div>
-            </section>
-            <button id="btn-seleccionar" class="btn btn-next" disabled>Empezar</button>
+                <button id="btn-seleccionar" class="btn btn-next" disabled>Empezar</button>
+            </form>
         </div>
         <div id="batalla" style="display: none;">
             <div class="margin-y">
                 <div class="hgroup">
-                    <h2 class="titulo">Bien Hecho <span   class="entrenador"></span></h2>
+                    <h2 class="titulo">Bien Hecho  <span id="entrenador" class="entrenador"></span> </h2>
                 </div>
                 <div class="marcador">
                     <h3 class="heading">Batalla No. <span id="numero-batalla">  00 </span></h3>
@@ -98,17 +101,7 @@
 
                     </div>
                     <div class="vs">
-                        <svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 64 65" fill="none">
-                            <g clip-path="url(#clip0_11_126)">
-                              <path d="M64 57.3889C64 59.2749 63.2508 61.0836 61.9172 62.4172C60.5836 63.7508 58.7749 64.5 56.8889 64.5H7.11111C5.22513 64.5 3.41639 63.7508 2.0828 62.4172C0.749204 61.0836 0 59.2749 0 57.3889V7.61111C0 5.72513 0.749204 3.91639 2.0828 2.5828C3.41639 1.2492 5.22513 0.5 7.11111 0.5L56.8889 0.5C58.7749 0.5 60.5836 1.2492 61.9172 2.5828C63.2508 3.91639 64 5.72513 64 7.61111V57.3889Z" fill="#F4900C"/>
-                              <path d="M30.1865 13.1933C28.3732 13.1933 27.255 14.3667 26.5599 15.8067L18.295 37.9916L10.0265 15.8067C9.33321 14.3667 8.21499 13.1933 6.40166 13.1933C4.26655 13.1933 2.29321 14.7933 2.29321 17.0333C2.29321 17.78 2.39988 18.3151 2.66655 19.0067L14.3465 48.7133C15.0417 50.4182 15.9465 51.8031 18.295 51.8031C20.6417 51.8031 21.5483 50.4182 22.2417 48.7133L33.9217 19.0067C34.1883 18.3133 34.2932 17.78 34.2932 17.0333C34.2914 14.7933 32.3199 13.1933 30.1865 13.1933ZM43.8932 24.0182C43.8932 21.7782 45.9732 20.5533 48.2683 20.5533C51.4665 20.5533 53.175 22.1516 55.3617 22.1516C57.5448 22.1516 58.935 20.2849 58.935 18.2049C58.935 13.9916 51.4665 12.8716 48.4799 12.8716C41.3865 12.8716 35.255 17.5098 35.255 24.98C35.255 37.3516 53.0683 33.5631 53.0683 39.8582C53.0683 42.4733 51.1483 44.4449 47.6301 44.4449C44.1617 44.4449 41.175 42.3649 38.6683 42.3649C36.4799 42.3649 35.095 44.0698 35.095 46.1498C35.095 51.1631 43.9501 52.1249 48.0532 52.1249C55.415 52.1249 61.7065 47.3782 61.7065 39.7498C61.7048 25.9933 43.8932 29.5116 43.8932 24.0182Z" fill="white"/>
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_11_126">
-                                <rect width="64" height="64" fill="white" transform="translate(0 0.5)"/>
-                              </clipPath>
-                            </defs>
-                          </svg>
+                        <i class="bi bi-badge-vo"></i>
                     </div>
                     <div class="pkmn card">
                         <img id="pokemon-rival-img" src="" alt="Pokemon Rival" class="pkmn-user-pic">
@@ -125,13 +118,16 @@
                     <div class="subtitulo txt-center">Selecciona tu movimiento</div>
                     <div class="ataques ">
                         <button class="btn ataque-a tipo">
-                            <div class="icono"><span>🔥</span></div>
+                            <div class="icono"><i class="bi bi-disc"></i></div>
                             <div class="movimiento">Ataque A</div>
                         </button>
                         <button class="btn ataque-b tipo">
-                            <div class="icono"><span>💧</span></div>
+                            <div class="icono"><i class="bi bi-disc"></i></div>
                             <div class="movimiento">Ataque B</div>
                         </button>
+                    </div>
+                    <div class="margin-y">
+                        <button id="btn-limpiar-localStorage" class="btn"> <i class="bi bi-repeat"></i> Reiniciar </button>
                     </div>
                 </div>
 
@@ -155,9 +151,10 @@
         </div>
     </main>
 
-    <footer>
-        <p>©️ 2024</p>
+    <footer class="footer">
+        <p class="fw-bold">©️ 2024</p>
     </footer>
+    
     <script src="app.js"></script>
 </body>
 </html>

@@ -23,63 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         });
 
-
-     /* Obtener elementos del DOM */
-     const inputNombre = document.getElementById("nombreUsuario");
-     const formNombre = document.getElementById("form-nombre");
-     const btnNombre = document.getElementById("btn-nombre");
-     const btnSeleccionar = document.getElementById("btn-seleccionar");
-     const nombreJugador = document.getElementById("nombre-jugador");
-     const seleccionarPkmn = document.getElementById("seleccionar-pkmn");
-     const batalla = document.getElementById("batalla");
-     const resultado = document.getElementById("resultado");
-
-
-    let nombreJugadorGuardado = localStorage.getItem("nombreJugador") || "";
-    let pokemonNombre = localStorage.getItem("nombrePokemon");
-
-
-    /* Validar y habilitar botón "Vamos allá!" */
-    inputNombre.addEventListener("input", function () {
-        btnNombre.disabled = inputNombre.value.trim().length === 0;
-    });
-
-    /* Función común para manejar avanzar a la siguiente vista */
-    function avanzarVistaNombre(event) {
-        event.preventDefault(); // Evita el envío tradicional del formulario
-
-        const nombre = inputNombre.value.trim();
-        localStorage.setItem("nombreJugador", nombre);
-        nombreJugadorGuardado = nombre;
-
-        document.querySelectorAll(".entrenador").forEach(span => {
-            span.textContent = nombreJugadorGuardado;
-        });
-
-        console.log(nombreJugadorGuardado);
-        nombreJugador.style.display = "none";
-        seleccionarPkmn.style.display = "block";
-    }
-
-    /* Almacenar nombre en localStorage y avanzar a la siguiente vista */
-    btnNombre.addEventListener("click", avanzarVistaNombre);
-
-    /* Manejar el envío del formulario para permitir avanzar con "Enter" */
-    formNombre.addEventListener("submit", avanzarVistaNombre);
-
-    /* Seleccionar Pokémon */
-    const pokemonCards = document.querySelectorAll('.pokemon-card');
-    pokemonCards.forEach(card => {
-        card.addEventListener('click', () => {
-            pokemonCards.forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-            clickSound.play();
-
-            // Habilitar botón "Empezar" al seleccionar un Pokémon
-            btnSeleccionar.disabled = false;
-        });
-    });
-
+ 
     /* Definir clase Pokemon */
     class Pokemon {
         constructor(nombre, hp, movimientos) {
@@ -114,40 +58,122 @@ document.addEventListener('DOMContentLoaded', function () {
     const pokemones = [pikachu, charmander, bulbasaur, squirtle];
 
     console.log('Pokemones creados', pokemones);
+ 
+    // Seleccionar elementos del DOM
+    const onboarding = document.getElementById('onboarding');
+    const seleccionarPkmn = document.getElementById('seleccionar-pkmn');
+    const btnAvanzar = document.getElementById('btn-avanzar');
+    const btnSeleccionar = document.getElementById('btn-seleccionar');
+    const nombreUsuarioInput = document.getElementById('nombreUsuario');
+    const pokemonCards = document.querySelectorAll('.pokemon-card');
+    const batalla = document.getElementById('batalla');
+    const entrenadorSpan = document.getElementById('entrenador');
+    const pokemonSeleccionadoSpan = document.getElementById('pokemon-seleccionado');
+    const pokemonSeleccionadoImg = document.getElementById('pokemon-seleccionado-img');
+    const pokemonRivalSpan = document.getElementById('pokemon-rival');
+    const pokemonRivalImg = document.getElementById('pokemon-rival-img');
 
+    // Variables para almacenar el nombre del usuario y el Pokémon seleccionado
+    let nombreUsuario = '';
+    let pokemonSeleccionado = '';
 
-    /* Avanzar a la vista de batalla */
-    btnSeleccionar.addEventListener("click", function () {
-        const pokemonSeleccionado = document.querySelector(".pokemon-card.selected");
+    // Evento para avanzar desde la pantalla de onboarding
+    btnAvanzar.addEventListener('click', () => {
+        onboarding.style.display = 'none';
+        seleccionarPkmn.style.display = 'block';
+    });
 
-        if (pokemonSeleccionado) {
-            const pokemonNombre = pokemonSeleccionado.getAttribute("data-pokemon");
-            localStorage.setItem("pokemonSeleccionado", pokemonNombre);
+    // Evento para seleccionar un Pokémon
+    pokemonCards.forEach(card => {
+        card.addEventListener('click', () => {
+            pokemonSeleccionado = card.getAttribute('data-pokemon');
+            
+            // Remover la selección previa
+            pokemonCards.forEach(c => c.classList.remove('selected'));
+            
+            // Añadir la clase 'selected' al Pokémon seleccionado
+            card.classList.add('selected');
+            
+            // Habilitar el botón de seleccionar
+            btnSeleccionar.disabled = false;
+        });
+    });
 
-            const nombreGuardado = localStorage.getItem("nombreJugador");
-            document.getElementById("entrenador").textContent = nombreGuardado;
-            document.getElementById("pokemon-seleccionado").textContent = pokemonNombre;
-            document.getElementById("pokemon-seleccionado-img").src=`./assets/images/${pokemonNombre}.png`;
+    // funcion para seleccionar un rival al azar 
+    function seleccionarPkmnRival() {
+        const randomIndex = Math.floor(Math.random() * pokemones.length);
+        return pokemones[randomIndex];
+    }
+    // Evento para guardar el nombre del usuario y el Pokémon seleccionado
+    btnSeleccionar.addEventListener('click', (e) => {
+        e.preventDefault();
+        nombreUsuario = nombreUsuarioInput.value.trim();
 
-            // Encontrar Pokémon seleccionado por el usuario
-            const pokemonUsuario = pokemones.find(p => p.nombre.toLowerCase() === pokemonNombre.toLowerCase());
-            console.log('Pokemon del usuario: ', pokemonUsuario);
+        if (nombreUsuario && pokemonSeleccionado) {
+            // Guardar el nombre del usuario y el Pokémon seleccionado
+            localStorage.setItem('nombreUsuario', nombreUsuario);
+            localStorage.setItem('pokemonSeleccionado', pokemonSeleccionado);
 
-            // Seleccionar aleatoriamente el Pokémon del rival
-            const pokemonRival = pokemones[Math.floor(Math.random() * pokemones.length)];
-            console.log('Pokemon rival seleccionado: ', pokemonRival);
+            //pokmn rival al azar
+            const rival = seleccionarPkmnRival();
+            pokemonRival = rival.nombre;
 
-            // Mostrar nombre de los Pokémon involucrados en pantalla
-            document.getElementById("pokemon-seleccionado").textContent = pokemonUsuario.nombre;
-            document.getElementById("pokemon-rival").textContent = pokemonRival.nombre;
-            document.getElementById("pokemon-rival-img").src=`./assets/images/${pokemonRival.nombre.toLowerCase()}.png`;
+            // Mostrar la pantalla de batalla
+            seleccionarPkmn.style.display = 'none';
+            batalla.style.display = 'block';
 
-            seleccionarPkmn.style.display = "none";
-            batalla.style.display = "block";
+            // Mostrar el nombre del usuario y el Pokémon seleccionado en la pantalla de batalla
+            entrenadorSpan.textContent = nombreUsuario;
+            pokemonSeleccionadoSpan.textContent = pokemonSeleccionado;
+            pokemonSeleccionadoImg.src = `./assets/images/${pokemonSeleccionado}.png`;
+
+            // Mostrar el Pokémon rival
+            pokemonRivalSpan.textContent = pokemonRival;
+            pokemonRivalImg.src = `./assets/images/${pokemonRival.toLowerCase()}.png`;
         }
     });
- 
- 
-    /* Lógica adicional para el botón "Volver a jugar" si es necesario */
+
+    // Cargar el nombre del usuario y el Pokémon seleccionado desde el localStorage (si existen)
+    window.addEventListener('load', () => {
+        const savedNombreUsuario = localStorage.getItem('nombreUsuario');
+        const savedPokemonSeleccionado = localStorage.getItem('pokemonSeleccionado');
+
+        if (savedNombreUsuario && savedPokemonSeleccionado) {
+            nombreUsuario = savedNombreUsuario;
+            pokemonSeleccionado = savedPokemonSeleccionado;
+
+            // Selecciona Pokémon rival al azar
+            const rival = seleccionarPkmnRival();
+            const pokemonRival = rival.nombre;
+
+            // Mostrar la pantalla de batalla
+            onboarding.style.display = 'none';
+            seleccionarPkmn.style.display = 'none';
+            batalla.style.display = 'block';
+
+            // Mostrar el nombre del usuario y el Pokémon seleccionado en la pantalla de batalla
+            entrenadorSpan.textContent = nombreUsuario;
+            pokemonSeleccionadoSpan.textContent = pokemonSeleccionado;
+            pokemonSeleccionadoImg.src = `./assets/images/${pokemonSeleccionado}.png`;
+            // Mostrar el Pokémon rival
+            pokemonRivalSpan.textContent = pokemonRival;
+            pokemonRivalImg.src = `./assets/images/${pokemonRival.toLowerCase()}.png`;
+        }
+    }); 
+    
+    
+    //evento del boton de reset
+
+
+    const btnLimpiarLocalStorage = document.getElementById('btn-limpiar-localStorage');
+    btnLimpiarLocalStorage.addEventListener('click', () => {
+        localStorage.removeItem('nombreUsuario');
+        localStorage.removeItem('pokemonSeleccionado');
+        console.log('LocalStorage limpiado.');
+
+        onboarding.style.display = 'block';
+        seleccionarPkmn.style.display = 'none';
+        batalla.style.display = 'none';
+    });
 
 });
