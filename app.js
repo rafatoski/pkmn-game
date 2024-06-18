@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Función que muestra ataque con múltiples mensajes y retraso
-function logBattle(messages, delays, callback) {
+function logBattle(messages, delays = [], callback) {
     const battleLog = document.getElementById('battle-log');
     battleLog.style.display = 'block';
 
@@ -243,10 +243,11 @@ function logBattle(messages, delays, callback) {
             battleLog.appendChild(logEntry);
 
             let index = 0;
+            const message = messages[currentMessageIndex];
 
             function typeCharacter() {
-                if (index < messages[currentMessageIndex].length) {
-                    logEntry.textContent += messages[currentMessageIndex][index];
+                if (index < message.length) {
+                    logEntry.textContent += message[index];
                     index++;
                     setTimeout(typeCharacter, 50); // Ajusta este valor para la velocidad de escritura
                 } else {                    
@@ -304,6 +305,7 @@ function attack(attackIndex) {
                         // Actualizar los elementos de visualización de HP
                         actualizarBarraVida(usuario.hp, hpBarUsuario);
 
+
                         // Verificar si el Pokémon del usuario ha sido derrotado
                         if (usuario.hp <= 0) {
                             endBattle('lose');
@@ -319,9 +321,9 @@ function attack(attackIndex) {
     // Función para terminar la batalla
     function endBattle(result) {
         if (result === 'win') {
-            logBattle('¡Has ganado la batalla!');
+            logBattle("¡Has ganado la batalla !");
         } else {
-            logBattle('Has perdido la batalla...');
+            logBattle("Has perdido la batalla...");
         }
     }
 
