@@ -210,13 +210,12 @@ footer {
     font-size: var(--font-size-medium);
     justify-content: center;
     margin: 1rem auto;
-    padding: 1rem 1.6rem; 
+    padding: 16px 8px; 
     transition: all 0.2s ease-out;
     text-transform: capitalize;
     white-space: nowrap;
     position: relative;
-    width: -webkit-fill-available;
-    width: fill-available;
+    width: 100%;
 
 }
 .btn::after{
@@ -416,7 +415,11 @@ footer {
     margin-bottom: 2rem;
     display: inline-block;
 }
+.battle-log-container{
+    position: relative;
+}
 .battle-log{
+    background-color: var(--blanco);
     border: 5px solid var(--gris-claro);
     margin-bottom: 2rem;
     line-height: 1.8;
@@ -424,7 +427,12 @@ footer {
     overflow-y: scroll;
     padding: .5rem;
     padding-bottom: 1.1rem;
-    display: block;
+    
+    display: none;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 3;
 }
 .moves{
     text-align: center;
@@ -432,7 +440,8 @@ footer {
 .moves .ataques{
     align-items: center;
     display: flex;
-    justify-content: center;    
+    justify-content: center;   
+    gap: 20px; 
 }
 
 

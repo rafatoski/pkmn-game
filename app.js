@@ -233,6 +233,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Función que muestra ataque con múltiples mensajes y retraso
 function logBattle(messages, delays, callback) {
     const battleLog = document.getElementById('battle-log');
+    battleLog.style.display = 'block';
 
     let currentMessageIndex = 0;
 
@@ -254,6 +255,7 @@ function logBattle(messages, delays, callback) {
                     if (currentMessageIndex < messages.length) {
                         setTimeout(displayNextMessage, delays[currentMessageIndex]); // Espera antes de mostrar el siguiente mensaje
                     } else if (callback) {
+                        battleLog.style.display = 'none';
                         callback(); // Llamar al callback una vez se han mostrado todos los mensajes
                     }
                 }
