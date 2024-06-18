@@ -210,7 +210,7 @@ footer {
     font-size: var(--font-size-medium);
     justify-content: center;
     margin: 1rem auto;
-    padding: 16px 8px; 
+    padding: 16px 6px; 
     transition: all 0.2s ease-out;
     text-transform: capitalize;
     white-space: nowrap;
