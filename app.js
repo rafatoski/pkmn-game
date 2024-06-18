@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Mostrar el nombre del usuario y el Pokémon seleccionado en la pantalla de batalla
             entrenadorSpan.textContent = nombreUsuario;
             pokemonSeleccionadoSpan.textContent = pokemonSeleccionado;
-            pokemonSeleccionadoImg.src = `./assets/images/${pokemonSeleccionado}.png`;
+            pokemonSeleccionadoImg.src = `./assets/images/${pokemonSeleccionado.toLowerCase()}.png`;
 
             // Mostrar el Pokémon rival
             pokemonRivalSpan.textContent = pokemonRival;
@@ -230,67 +230,89 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Función para realizar un ataque
-    function attack(attackIndex) {
-        // Obtener el ataque seleccionado del Pokémon del usuario
-        const userAttack = usuario.movimientos[attackIndex];
+    // Función que muestra ataque con múltiples mensajes y retraso
+function logBattle(messages, delays, callback) {
+    const battleLog = document.getElementById('battle-log');
 
-        // Reducir la HP del oponente basado en el daño del ataque
-        rival.recibirDano(userAttack.dano);
+    let currentMessageIndex = 0;
 
-        // Mostrar el mensaje del ataque en el registro de batalla
-        logBattle(`Tu ${usuario.nombre} uso ${userAttack.nombre}, ¡Causo ${userAttack.dano} de daño!`);
+    function displayNextMessage() {
+        if (currentMessageIndex < messages.length) {
+            const logEntry = document.createElement('p');
+            battleLog.appendChild(logEntry);
 
-        // Actualizar los elementos de visualización de HP
-        actualizarBarraVida(rival.hp, hpBarRival);
-        vidaPkmnRival.textContent = rival.hp;
+            let index = 0;
 
-        // Verificar si el oponente ha sido derrotado
-        if (rival.hp <= 0) {
-            endBattle('win');
-            return;
-        }
-
-        // Ataque aleatorio del oponente
-        const randomAttack = rival.movimientos[Math.floor(Math.random() * rival.movimientos.length)];
-        usuario.recibirDano(randomAttack.dano);
-
-        // Mostrar el mensaje del ataque del oponente en el registro de batalla
-        logBattle(`${rival.nombre} rival uso ${randomAttack.nombre}. ¡Causo ${randomAttack.dano} de daño!`);
-
-        // Actualizar los elementos de visualización de HP
-        actualizarBarraVida(usuario.hp, hpBarUsuario);
-        vidaPkmnUsuario.textContent = usuario.hp;
-
-        // Verificar si el Pokémon del usuario ha sido derrotado
-        if (usuario.hp <= 0) {
-            endBattle('lose');
-        }
-    }
-
-    // Función que muestra ataque
-    function logBattle(message) {
-        // Obtener el div del mensaje
-        const logEntry = document.createElement('p');
-        const battleLog = document.getElementById('battle-log');
-        
-        let index = 0;
-
-        function typeCharacter() {
-            if (index < message.length){
-                logEntry.textContent += message[index];
-                index++;
-                // Imprimir
-                battleLog.appendChild(logEntry);
-                setTimeout(typeCharacter, 20) //velocidad de escritura
-            }else {
-                // Scroll
-                battleLog.scrollTop = battleLog.scrollHeight;
+            function typeCharacter() {
+                if (index < messages[currentMessageIndex].length) {
+                    logEntry.textContent += messages[currentMessageIndex][index];
+                    index++;
+                    setTimeout(typeCharacter, 50); // Ajusta este valor para la velocidad de escritura
+                } else {                    
+                    battleLog.scrollTop = battleLog.scrollHeight; // Scroll al final después de escribir
+                    currentMessageIndex++;
+                    if (currentMessageIndex < messages.length) {
+                        setTimeout(displayNextMessage, delays[currentMessageIndex]); // Espera antes de mostrar el siguiente mensaje
+                    } else if (callback) {
+                        callback(); // Llamar al callback una vez se han mostrado todos los mensajes
+                    }
+                }
             }
-        }
 
-        setTimeout(typeCharacter , 700);        
+            typeCharacter();
+        }
     }
+
+    displayNextMessage();
+}
+
+// Ejemplo de uso en la función de ataque
+function attack(attackIndex) {
+    // Obtener el ataque seleccionado del Pokémon del usuario
+    const userAttack = usuario.movimientos[attackIndex];
+
+    // Reducir HP del rival basado en el daño del ataque
+    rival.recibirDano(userAttack.dano);
+
+    // Mostrar el mensaje del ataque en el registro de batalla
+    logBattle(
+        [`Tu ${usuario.nombre} usó ${userAttack.nombre}`, `¡Causó ${userAttack.dano} de daño!`],
+        [500, 500], // Retrasos en milisegundos entre los mensajes
+        () => {
+            // Actualizar los elementos de visualización de HP del rival
+            actualizarBarraVida(rival.hp, hpBarRival);
+
+            // Verificar si el rival ha sido derrotado
+            if (rival.hp <= 0) {
+                endBattle('win');
+                return;
+            }
+
+            // Esperar antes de que el rival ataque
+            setTimeout(() => {
+                // Ataque aleatorio del rival
+                const randomAttack = rival.movimientos[Math.floor(Math.random() * rival.movimientos.length)];
+                usuario.recibirDano(randomAttack.dano);
+
+                // Mostrar el mensaje del ataque del rival en el registro de batalla
+                logBattle(
+                    [`El ${rival.nombre} rival usó ${randomAttack.nombre}`, `¡Causó ${randomAttack.dano} de daño!`],
+                    [500, 500], // Retrasos en milisegundos entre los mensajes
+                    () => {
+                        // Actualizar los elementos de visualización de HP
+                        actualizarBarraVida(usuario.hp, hpBarUsuario);
+
+                        // Verificar si el Pokémon del usuario ha sido derrotado
+                        if (usuario.hp <= 0) {
+                            endBattle('lose');
+                        }
+                    }
+                );
+            }, 1000); // Espera 1 segundo antes de que el rival ataque
+        }
+    );
+}
+
 
     // Función para terminar la batalla
     function endBattle(result) {

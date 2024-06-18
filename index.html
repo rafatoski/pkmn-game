@@ -80,38 +80,40 @@
             </form>
         </div>
         <div id="batalla" style="display: none;">
+            <div class="marcador">
+                <h3 class="heading">Batalla No. <span id="numero-batalla">  00 </span></h3>
+                <h3 class="heading">Puntos: <span id="puntos"> 00 </span></h3>
+            </div>
+            <div class="options">
+                <div class="pkmn card">
+                    <img id="pokemon-seleccionado-img" src="" alt="Tu Pokemon" class="pkmn-user-pic">
+                    <div class="data-pkmn">
+                        <h5 class="margin-y-0">Tu Pokemon</h5>
+                        <h4 class="margin-y-0"><span id="pokemon-seleccionado"></span></h4>
+                        <p class="hp margin-y-0">HP: <span class="vida-pkmn-user">00</span> /100</p>
+                        <div class="hp-bar hp-bar-usuario"></div>
+                    </div>
+
+                </div> 
+                <div class="pkmn card">
+                    <img id="pokemon-rival-img" src="" alt="Pokemon Rival" class="pkmn-user-pic">
+                    <div class="data-pkmn">
+                        <h5 class="margin-y-0">Pokemon Rival</h5>
+                        <h4 class="margin-y-0"><span id="pokemon-rival"></span></h4>
+                        <p class="hp margin-y-0">HP: <span class="vida-pkmn-rival">00</span> /100</p>
+                        <div class="hp-bar hp-bar-rival"></div>
+                    </div>
+
+                </div>
+            </div>
             <div class="margin-y">
                 <div class="hgroup">
                     <h2 class="titulo">Bien Hecho  <span id="entrenador" class="entrenador"></span> </h2>
                 </div>
-                <div id="battle-log" class="battle-log"></div>
-                <div class="marcador">
-                    <h3 class="heading">Batalla No. <span id="numero-batalla">  00 </span></h3>
-                    <h3 class="heading">Puntos: <span id="puntos"> 00 </span></h3>
+                <div class="battle-log-container">
+                    <div id="battle-log" class="battle-log"></div>
                 </div>
 
-                <div class="options">
-                    <div class="pkmn card">
-                        <img id="pokemon-seleccionado-img" src="" alt="Tu Pokemon" class="pkmn-user-pic">
-                        <div class="data-pkmn">
-                            <h5 class="margin-y-0">Tu Pokemon</h5>
-                            <h4 class="margin-y-0"><span id="pokemon-seleccionado"></span></h4>
-                            <p class="hp margin-y-0">HP: <span class="vida-pkmn-user">00</span> /100</p>
-                            <div class="hp-bar hp-bar-usuario"></div>
-                        </div>
-
-                    </div> 
-                    <div class="pkmn card">
-                        <img id="pokemon-rival-img" src="" alt="Pokemon Rival" class="pkmn-user-pic">
-                        <div class="data-pkmn">
-                            <h5 class="margin-y-0">Pokemon Rival</h5>
-                            <h4 class="margin-y-0"><span id="pokemon-rival"></span></h4>
-                            <p class="hp margin-y-0">HP: <span class="vida-pkmn-rival">00</span> /100</p>
-                            <div class="hp-bar hp-bar-rival"></div>
-                        </div>
-
-                    </div>
-                </div>
                 <div class="moves">
                     <div class="subtitulo txt-center">Selecciona tu movimiento</div>
                     <div id="attacks" class="ataques">
