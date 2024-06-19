@@ -4,9 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const menuBtn = document.querySelector('.menu-btn');
     const menu = document.querySelector('.menu-items');
 
-    menuBtn.addEventListener('click', () => {
-        menu.classList.toggle('active');
-    });
+    if (menuBtn && menu) {
+            menuBtn.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+    }
+
 
     /* Sonido al seleccionar Pokémon */
     const clickSound = new Audio('./assets/sounds/button-click.wav');
@@ -82,10 +85,12 @@ document.addEventListener('DOMContentLoaded', function () {
     let rival; // Variable para el Pokémon del rival
 
     // Evento para avanzar desde la pantalla de onboarding
-    btnAvanzar.addEventListener('click', () => {
-        onboarding.style.display = 'none';
-        seleccionarPkmn.style.display = 'block';
-    });
+    if(btnAvanzar){
+        btnAvanzar.addEventListener('click', () => {
+            onboarding.style.display = 'none';
+            seleccionarPkmn.style.display = 'block';
+        });
+    }
 
     // Evento para seleccionar un Pokémon
     pokemonCards.forEach(card => {
@@ -187,38 +192,40 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Evento para guardar el nombre del usuario y el Pokémon seleccionado
-    btnSeleccionar.addEventListener('click', (e) => {
-        e.preventDefault();
-        nombreUsuario = nombreUsuarioInput.value.trim();
-
-        if (nombreUsuario && pokemonSeleccionado) {
-            // Obtener el Pokémon seleccionado por el usuario desde la lista de Pokémon
-            usuario = pokemones.find(pokemon => pokemon.nombre === pokemonSeleccionado);
-
-            // Pokémon rival al azar
-            rival = seleccionarPkmnRival();
-            const pokemonRival = rival.nombre;
-
-            // Guardar el nombre del usuario y el Pokémon seleccionado
-            localStorage.setItem('nombreUsuario', nombreUsuario);
-            localStorage.setItem('pokemonSeleccionado', pokemonSeleccionado);
-
-            // Mostrar la pantalla de batalla
-            seleccionarPkmn.style.display = 'none';
-            batalla.style.display = 'block';
-
-            // Mostrar el nombre del usuario y el Pokémon seleccionado en la pantalla de batalla
-            entrenadorSpan.textContent = nombreUsuario;
-            pokemonSeleccionadoSpan.textContent = pokemonSeleccionado;
-            pokemonSeleccionadoImg.src = `./assets/images/${pokemonSeleccionado.toLowerCase()}.png`;
-
-            // Mostrar el Pokémon rival
-            pokemonRivalSpan.textContent = pokemonRival;
-            pokemonRivalImg.src = `./assets/images/${pokemonRival.toLowerCase()}.png`;
-
-            startBattle();
-        }
-    });
+    if(btnSeleccionar) {
+        btnSeleccionar.addEventListener('click', (e) => {
+            e.preventDefault();
+            nombreUsuario = nombreUsuarioInput.value.trim();
+    
+            if (nombreUsuario && pokemonSeleccionado) {
+                // Obtener el Pokémon seleccionado por el usuario desde la lista de Pokémon
+                usuario = pokemones.find(pokemon => pokemon.nombre === pokemonSeleccionado);
+    
+                // Pokémon rival al azar
+                rival = seleccionarPkmnRival();
+                const pokemonRival = rival.nombre;
+    
+                // Guardar el nombre del usuario y el Pokémon seleccionado
+                localStorage.setItem('nombreUsuario', nombreUsuario);
+                localStorage.setItem('pokemonSeleccionado', pokemonSeleccionado);
+    
+                // Mostrar la pantalla de batalla
+                seleccionarPkmn.style.display = 'none';
+                batalla.style.display = 'block';
+    
+                // Mostrar el nombre del usuario y el Pokémon seleccionado en la pantalla de batalla
+                entrenadorSpan.textContent = nombreUsuario;
+                pokemonSeleccionadoSpan.textContent = pokemonSeleccionado;
+                pokemonSeleccionadoImg.src = `./assets/images/${pokemonSeleccionado.toLowerCase()}.png`;
+    
+                // Mostrar el Pokémon rival
+                pokemonRivalSpan.textContent = pokemonRival;
+                pokemonRivalImg.src = `./assets/images/${pokemonRival.toLowerCase()}.png`;
+    
+                startBattle();
+            }
+        });
+    }
 
     // Función de ataque y batalla
     function startBattle() {
@@ -234,6 +241,10 @@ document.addEventListener('DOMContentLoaded', function () {
 function logBattle(messages, delays = [], callback) {
     const battleLog = document.getElementById('battle-log');
     battleLog.style.display = 'block';
+    // Asegurarse de que `messages` sea siempre un array
+    if (!Array.isArray(messages)) {
+        messages = [messages];
+    }
 
     let currentMessageIndex = 0;
 
@@ -283,7 +294,7 @@ function attack(attackIndex) {
         [500, 500], // Retrasos en milisegundos entre los mensajes
         () => {
             // Actualizar los elementos de visualización de HP del rival
-            actualizarBarraVida(rival.hp, hpBarRival);
+            actualizarBarraVida(rival.hp, hpBarRival, vidaPkmnRival);
 
             // Verificar si el rival ha sido derrotado
             if (rival.hp <= 0) {
@@ -303,7 +314,7 @@ function attack(attackIndex) {
                     [500, 500], // Retrasos en milisegundos entre los mensajes
                     () => {
                         // Actualizar los elementos de visualización de HP
-                        actualizarBarraVida(usuario.hp, hpBarUsuario);
+                        actualizarBarraVida(usuario.hp, hpBarUsuario, vidaPkmnUsuario);
 
 
                         // Verificar si el Pokémon del usuario ha sido derrotado
