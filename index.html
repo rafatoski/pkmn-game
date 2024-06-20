@@ -45,45 +45,38 @@
         <div id="seleccionar-pkmn" style="display: none;">
             <form id="user-Name-Pokemon">
             <section class="nombre-container">
-                <h2 class="titulo">Estupendo, empezemos</h2>
-                <h3 class="subtitulo">Por favor escribe tu nombre de entrenador: </h3>
-                <div class="input-group margin-y">
+                <h3 class="subtitulo ">Bienvenido entrenador, seleccioona tu nombre y Pokemon. </h3>
+                <div class="input-group">
                         <input id="nombreUsuario" type="text" class="nombreUsuario"  placeholder="Tu Nombre" required>                       
                     </div>
-                </section>
-                <section class="margin-y">
-                    <h3 class="subtitulo">Selecciona a tu Pokemon</h3>
                 </section>
                 <section class="pokemon-container">
                     <div class="pokemon-card card" data-pokemon="Charmander">
                         <img src="./assets/images/charmander.png" alt="Charmander">
+                        <h4 class="pokemon-card_nombre"> Charmander</h4>
                         <p class="tipo"> Fuego </p>
-                        <h4> Charmander</h4>
                     </div>
                     <div class="pokemon-card card" data-pokemon="Squirtle">
                         <img src="./assets/images/squirtle.png" alt="Squirtle">
+                        <h4 class="pokemon-card_nombre"> Squirtle </h4>
                         <p class="tipo">Agua</p>
-                        <h4> Squirtle </h4>
                     </div>
                     <div class="pokemon-card card" data-pokemon="Bulbasaur">
                         <img src="./assets/images/bulbasaur.png" alt="Bulbasaur">
+                        <h4 class="pokemon-card_nombre"> Bulbasaur </h4>
                         <p class="tipo">Planta</p>
-                        <h4> Bulbasaur </h4>
                     </div>
                     <div class="pokemon-card card" data-pokemon="Pikachu">
                         <img src="./assets/images/pikachu.png" alt="Pikachu">
+                        <h4 class="pokemon-card_nombre">Pikachu</h4>
                         <p class="tipo">Eléctrico</p>
-                        <h4>Pikachu</h4>
                     </div>
             </section>
                 <button id="btn-seleccionar" class="btn btn-next" disabled>Empezar</button>
             </form>
         </div>
         <div id="batalla" style="display: none;">
-            <div class="marcador">
-                <h3 class="heading">Batalla No. <span id="numero-batalla">  00 </span></h3>
-                <h3 class="heading">Puntos: <span id="puntos"> 00 </span></h3>
-            </div>
+            
             <div class="options">
                 <div class="pkmn card">
                     <img id="pokemon-seleccionado-img" src="" alt="Tu Pokemon" class="pkmn-user-pic">
@@ -107,41 +100,46 @@
                 </div>
             </div>
             <div class="margin-y">
-                <div class="hgroup">
-                    <h2 class="titulo">Bien Hecho  <span id="entrenador" class="entrenador"></span> </h2>
-                </div>
+                
                 <div class="battle-log-container">
                     <div id="battle-log" class="battle-log"></div>
                 </div>
 
                 <div class="moves">
-                    <div class="subtitulo txt-center">Selecciona tu movimiento</div>
+                    <div class="subtitulo txt-center margin-y-0">Selecciona tu movimiento</div>
                     <div id="attacks" class="ataques">
                         <button class="btn ataque-a tipo" id="ataqueA"> 
                             movimiento A
                         </button> 
-                        <button class="btn ataque-a tipo" id="ataqueB"> 
+                        <button class="btn btn-verde ataque-a tipo" id="ataqueB"> 
                             movimiento B
                         </button> 
                     </div>
-                    <div class="margin-y">
-                        <button id="btn-limpiar-localStorage" class="btn"> <i class="bi bi-repeat"></i> Reiniciar </button>
-                    </div>
+                    
+                </div> 
+                <div class="marcador">
+                    <h3 class="heading">Victorias: <span id="battle-count"> 0</span></h3>
+                    <h3 class="heading">Puntos: <span id="puntos"> 0 </span></h3>
                 </div>
-
+                <div class="txt-center">
+                    <button class=" margin-y btn-limpiar-localStorage margin-x-auto"> <i class="bi bi-clock"></i> Limpiar LocalStorage </button>
+                </div>
+                
             </div>
         </div>
         <div id="resultado" style="display: none;">
             <section class="margin-y">
-                <h2 class="titulo">Bien Hecho <span   class="entrenador"></span></h2>
+                <h2 class="titulo">Bien Hecho</h2>
+                <h2 class="titulo"> <span id="entrenador"  class="entrenador"></span> </h2>   
                 <h3 class="subtitulo">Haz logrado conseguir: </h3>
             </section>
             <section class="resultado-container">
                 <div class="margin-y">
-                    <h6 class="fw-bold"> <span class="puntos">3054016</span> puntos </h6>
+                    <h2 class="titulo"> <span class="puntos">306</span> Puntos </h2>
                 </div>
+                <button  class="btn  margin-y btn-limpiar-localStorage margin-x-auto"> <i class="bi bi-clock"></i> Limpiar LocalStorage </button>
             </section>
-            <button id="pkmn-seleccionado" class="btn btn-next" >Volver a jugar</button>
+            
         </div>
     </main>
 

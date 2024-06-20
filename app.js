@@ -40,14 +40,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const movimientos = {
-        impactrueno: { nombre: 'Impactrueno', dano: 20 },
-        lanzallamas: { nombre: 'Lanzallamas', dano: 20 },
-        pistolaagua: { nombre: 'Pistola de agua', dano: 20 },
-        latigocepa: { nombre: 'Latigo Cepa', dano: 20 },
+        impactrueno: { nombre: 'Impactrueno', dano: 50 },
+        lanzallamas: { nombre: 'Lanzallamas', dano: 50 },
+        pistolaagua: { nombre: 'Pistola de agua', dano: 50 },
+        latigocepa: { nombre: 'Latigo Cepa', dano: 50 },
         ataquerapido: { nombre: 'Ataque Rápido', dano: 15 },
         golpecuerpo: { nombre: 'Golpe cuerpo', dano: 15 },
         aranazo: { nombre: 'Arañazo', dano: 15 },
         psiquico: { nombre: 'Psiquico', dano: 50 },
+
         // agregar mas movimientos aquí
     }
 
@@ -57,8 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const charmander = new Pokemon('Charmander', 100, [movimientos.lanzallamas, movimientos.golpecuerpo]);
     const bulbasaur = new Pokemon('Bulbasaur', 100, [movimientos.latigocepa, movimientos.ataquerapido]);
     const squirtle = new Pokemon('Squirtle', 100, [movimientos.pistolaagua, movimientos.aranazo]);
+    const mew = new Pokemon ('Mew' , 100, [movimientos.psiquico, movimientos.ataquerapido]);
 
-    const pokemones = [pikachu, charmander, bulbasaur, squirtle];
+    const pokemones = [pikachu, charmander, bulbasaur, squirtle , mew];
 
     console.log('Pokemones creados', pokemones);
 
@@ -70,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const nombreUsuarioInput = document.getElementById('nombreUsuario');
     const pokemonCards = document.querySelectorAll('.pokemon-card');
     const batalla = document.getElementById('batalla');
+    const resultado = document.getElementById('resultado');
     const entrenadorSpan = document.getElementById('entrenador');
     const pokemonSeleccionadoSpan = document.getElementById('pokemon-seleccionado');
     const pokemonSeleccionadoImg = document.getElementById('pokemon-seleccionado-img');
@@ -77,12 +80,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const pokemonRivalImg = document.getElementById('pokemon-rival-img');
     const ataqueA = document.getElementById('ataqueA');
     const ataqueB = document.getElementById('ataqueB');
+    const battleCountDisplay = document.getElementById('battle-count');
 
     // Variables para almacenar el nombre del usuario y el Pokémon seleccionado
     let nombreUsuario = '';
     let pokemonSeleccionado = '';
     let usuario; // Variable para el Pokémon del usuario
     let rival; // Variable para el Pokémon del rival
+    let numeroDeVictorias = 0;// conteo de victorias
+    let recordDeBatallas = localStorage.getItem('recordDeBatallas') || 0;
 
     // Evento para avanzar desde la pantalla de onboarding
     if(btnAvanzar){
@@ -176,12 +182,12 @@ document.addEventListener('DOMContentLoaded', function () {
     vidaPkmnUsuario.textContent = vidaUsuario;
     vidaPkmnRival.textContent = vidaRival;
 
-    actualizarBarraVida(vidaUsuario, hpBarUsuario);
-    actualizarBarraVida(vidaRival, hpBarRival);
+    actualizarBarraVida(vidaUsuario, hpBarUsuario , vidaPkmnUsuario);
+    actualizarBarraVida(vidaRival, hpBarRival , vidaPkmnRival);
 
     // Función para actualizar la barra de vida
-    function actualizarBarraVida(vida, hpBar) {
-        const porcentajeVida = (vida / 100) * 100;
+    function actualizarBarraVida(vida, hpBar , vidaSpan) {
+        const porcentajeVida = (vida/100) * 100;
         hpBar.style.width = porcentajeVida + '%';
 
         if (vida <= 20) {
@@ -189,6 +195,8 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             hpBar.style.backgroundColor = 'green';
         }
+        
+        vidaSpan.textContent = vida;
     }
 
     // Evento para guardar el nombre del usuario y el Pokémon seleccionado
@@ -287,12 +295,23 @@ function attack(attackIndex) {
 
     // Reducir HP del rival basado en el daño del ataque
     rival.recibirDano(userAttack.dano);
+    pokemonSeleccionadoImg.classList.add('atacando-derecha');
+    // Remover la clase de animación después de la animación
+    setTimeout(() => {
+        pokemonSeleccionadoImg.classList.remove('atacando-derecha');
+    }, 300); // Ajusta el tiempo según la duración de la animación
 
     // Mostrar el mensaje del ataque en el registro de batalla
     logBattle(
         [`Tu ${usuario.nombre} usó ${userAttack.nombre}`, `¡Causó ${userAttack.dano} de daño!`],
         [500, 500], // Retrasos en milisegundos entre los mensajes
         () => {
+            // Añadir animación recibir daño y quitar despues de tiempo
+            pokemonRivalImg.classList.add('recibiendo-dano');
+            setTimeout(() => {
+                pokemonRivalImg.classList.remove('recibiendo-dano');
+            }, 500); //tiempo duración de la animación
+
             // Actualizar los elementos de visualización de HP del rival
             actualizarBarraVida(rival.hp, hpBarRival, vidaPkmnRival);
 
@@ -307,12 +326,25 @@ function attack(attackIndex) {
                 // Ataque aleatorio del rival
                 const randomAttack = rival.movimientos[Math.floor(Math.random() * rival.movimientos.length)];
                 usuario.recibirDano(randomAttack.dano);
+                if(usuario.hp < 0) usuario.hp = 0;
+                // animación de ataque al Pokémon rival
+                pokemonRivalImg.classList.add('atacando-izquierda'); 
+                setTimeout(() => {
+                    pokemonRivalImg.classList.remove('atacando-izquierda');
+                }, 300); // tiempo duración de la animación
+
 
                 // Mostrar el mensaje del ataque del rival en el registro de batalla
                 logBattle(
                     [`El ${rival.nombre} rival usó ${randomAttack.nombre}`, `¡Causó ${randomAttack.dano} de daño!`],
                     [500, 500], // Retrasos en milisegundos entre los mensajes
                     () => {
+                        // animación de recibir daño 
+                        pokemonSeleccionadoImg.classList.add('recibiendo-dano');
+                        setTimeout(() => {
+                            pokemonSeleccionadoImg.classList.remove('recibiendo-dano');
+                        }, 500); // tiempo duración de la animación
+
                         // Actualizar los elementos de visualización de HP
                         actualizarBarraVida(usuario.hp, hpBarUsuario, vidaPkmnUsuario);
 
@@ -332,21 +364,79 @@ function attack(attackIndex) {
     // Función para terminar la batalla
     function endBattle(result) {
         if (result === 'win') {
-            logBattle("¡Has ganado la batalla !");
+            numeroDeVictorias++;
+            battleCountDisplay.textContent =` ${numeroDeVictorias}`;
+            logBattle(["El rival murio, ¡Has ganado la batalla !"] ,[1000], ()=> {
+                iniciarNuevaBatalla();//reinicia la battle
+            });
         } else {
-            logBattle("Has perdido la batalla...");
+            logBattle(["Tu Pokemon ha muerto, has perdido la batalla..."] , [1000], ()=> {
+                actualizarRecordDeBatallas();
+                console.log('Fin del juego. ');
+                Resultado();
+            });
         }
     }
 
-    // Evento del botón de reset
-    const btnLimpiarLocalStorage = document.getElementById('btn-limpiar-localStorage');
-    btnLimpiarLocalStorage.addEventListener('click', () => {
-        localStorage.removeItem('nombreUsuario');
-        localStorage.removeItem('pokemonSeleccionado');
-        console.log('LocalStorage limpiado.');
+    function Resultado() {
+        batalla.style.display = "none";
+        resultado.style.display = "block";
 
+        document.querySelector(".puntos").textContent = `${numeroDeVictorias}`;
+    }
+
+    function seleccionarPkmnRivalAleatorio() {
+        const rivalesDisponibles = [
+            { nombre: "charmander" , hp: 100 },
+            { nombre: "squirtle" , hp: 100 },
+            { nombre: "bulbasaur" , hp: 100 },
+            { nombre: "pikachu" , hp: 100 },
+            { nombre: "mew" , hp: 100}
+        ];
+        const indiceAleatorio = Math.floor(Math.random() * rivalesDisponibles.length);
+        return rivalesDisponibles[indiceAleatorio];
+    }
+
+
+    // Función para iniciar nueva batalla despúes de ganar la primera
+    function iniciarNuevaBatalla() {
+        //logica para seleccionar al rival al aazar
+        pokemonRival = seleccionarPkmnRivalAleatorio();
+        //reiniciar hp de pokemon
+        usuario.hp = 100;
+        pokemonRival.hp = 100;
+
+        actualizarBarraVida(usuario.hp, hpBarUsuario, vidaPkmnUsuario);
+        actualizarBarraVida(pokemonRival.hp, hpBarRival, vidaPkmnRival);
+
+        console.log('Empezo una nueva batalla');
+    }
+
+    function actualizarRecordDeBatallas() {
+        if (numeroDeVictorias > recordDeBatallas) {
+            recordDeBatallas = numeroDeVictorias;
+
+            localStorage.setItem('recordDeBatallas' , recordDeBatallas);
+        }
+    }
+
+    function reiniciarJuego() {
+        localStorage.removeItem('usuario');
+        localStorage.removeItem('pokemonSeleccionado');
+        numeroDeVictorias = 1;
+        battleCountDisplay.textContent = `${numeroDeVictorias}`;
+        window.location.reload();
+    }
+
+
+    // ************************** 
+    // ****************************** Evento del botón de reset
+    const btnLimpiarLocalStorage = document.querySelector('.btn-limpiar-localStorage');
+    btnLimpiarLocalStorage.addEventListener('click', () => {
+        reiniciarJuego();
         onboarding.style.display = 'block';
         seleccionarPkmn.style.display = 'none';
         batalla.style.display = 'none';
-    });
+    }); 
 });
+
