@@ -76,9 +76,19 @@
             </form>
         </div>
         <div id="batalla" style="display: none;">
-            
+            <div class="marcador">
+                <div class="marcador_item">
+                    <i class="bi bi-hand-thumbs-up marcador_item-wins"></i>
+                    <span id="battle-count"> 0</span>                    
+                </div>
+                <div class="marcador_item">
+                    <i class="bi bi-trophy-fill marcador_item-trofeo"></i>
+                    <span id="record"> 0 </span>                    
+                </div>
+            </div>
+            <!-- ### -->
             <div class="options">
-                <div class="pkmn card">
+                <div class="options_pkmnCard">
                     <img id="pokemon-seleccionado-img" src="" alt="Tu Pokemon" class="pkmn-user-pic">
                     <div class="data-pkmn">
                         <h5 class="margin-y-0">Tu Pokemon</h5>
@@ -88,7 +98,7 @@
                     </div>
 
                 </div> 
-                <div class="pkmn card">
+                <div class="options_pkmnCard">
                     <img id="pokemon-rival-img" src="" alt="Pokemon Rival" class="pkmn-user-pic">
                     <div class="data-pkmn">
                         <h5 class="margin-y-0">Pokemon Rival</h5>
@@ -117,20 +127,6 @@
                     </div>
                     
                 </div> 
-                <div class="marcador">
-                    <div class="marcador_item">
-                        <h3>
-                            <i class="bi bi-stars marcador_item-history"></i>
-                            <span id="battle-count"> 0</span>
-                        </h3>
-                    </div>
-                    <div class="marcador_item">
-                        <h3>
-                            <i class="bi bi-trophy-fill marcador_item-trofeo"></i>
-                            <span id="puntos"> 0 </span>
-                        </h3>
-                    </div>
-                </div>
                 <div class="txt-center">
                     <button class=" margin-y btn-limpiar-localStorage margin-x-auto"> <i class="bi bi-clock"></i> Limpiar LocalStorage </button>
                 </div>
@@ -146,8 +142,9 @@
             <section class="resultado-container">
                 <div class="margin-y">
                     <h2 class="titulo"> <span class="puntos">306</span> Puntos </h2>
+                    <h2 class="titulo"><span class="vitorias">0</span> Victorias</h2>
                 </div>
-                <button  class="btn  margin-y btn-limpiar-localStorage margin-x-auto"> <i class="bi bi-clock"></i> Limpiar LocalStorage </button>
+                <button  class="btn  margin-y btn-limpiar margin-x-auto"> <i class="bi bi-clock"></i> Limpiar LocalStorage </button>
             </section>
             
         </div>

@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const ataqueA = document.getElementById('ataqueA');
     const ataqueB = document.getElementById('ataqueB');
     const battleCountDisplay = document.getElementById('battle-count');
+    const recordDisplay = document.getElementById('record');
 
     // Variables para almacenar el nombre del usuario y el Pokémon seleccionado
     let nombreUsuario = '';
@@ -89,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let rival; // Variable para el Pokémon del rival
     let numeroDeVictorias = 0;// conteo de victorias
     let recordDeBatallas = localStorage.getItem('recordDeBatallas') || 0;
+
 
     // Evento para avanzar desde la pantalla de onboarding
     if(btnAvanzar){
@@ -318,6 +320,7 @@ function attack(attackIndex) {
             // Verificar si el rival ha sido derrotado
             if (rival.hp <= 0) {
                 endBattle('win');
+                rival.hp = 100;
                 return;
             }
 
@@ -347,8 +350,6 @@ function attack(attackIndex) {
 
                         // Actualizar los elementos de visualización de HP
                         actualizarBarraVida(usuario.hp, hpBarUsuario, vidaPkmnUsuario);
-
-
                         // Verificar si el Pokémon del usuario ha sido derrotado
                         if (usuario.hp <= 0) {
                             endBattle('lose');
@@ -365,13 +366,14 @@ function attack(attackIndex) {
     function endBattle(result) {
         if (result === 'win') {
             numeroDeVictorias++;
+            pokemonRival = seleccionarPkmnRivalAleatorio();
             battleCountDisplay.textContent =` ${numeroDeVictorias}`;
-            logBattle(["El rival murio, ¡Has ganado la batalla !"] ,[1000], ()=> {
+            logBattle(["El rival murio, ¡Has ganado la batalla !"] ,[3000], ()=> {
                 iniciarNuevaBatalla();//reinicia la battle
             });
         } else {
             logBattle(["Tu Pokemon ha muerto, has perdido la batalla..."] , [1000], ()=> {
-                actualizarRecordDeBatallas();
+                actualizarRecordDeBatallas();                
                 console.log('Fin del juego. ');
                 Resultado();
             });
@@ -387,12 +389,18 @@ function attack(attackIndex) {
 
     function seleccionarPkmnRivalAleatorio() {
         const rivalesDisponibles = [
-            { nombre: "charmander" , hp: 100 },
-            { nombre: "squirtle" , hp: 100 },
-            { nombre: "bulbasaur" , hp: 100 },
-            { nombre: "pikachu" , hp: 100 },
-            { nombre: "mew" , hp: 100}
+            { nombre: "charmander", hp: 100 },
+            { nombre: "squirtle", hp: 100 },
+            { nombre: "bulbasaur", hp: 100 },
+            { nombre: "pikachu", hp: 100 }
         ];
+    
+        // Seleccionar Mew cada 4 victorias
+        if ((numeroDeVictorias + 1) % 4 === 0) {
+            return { nombre: 'Mew', hp: 100 };
+        }
+    
+        // Seleccionar un rival al azar
         const indiceAleatorio = Math.floor(Math.random() * rivalesDisponibles.length);
         return rivalesDisponibles[indiceAleatorio];
     }
@@ -400,30 +408,33 @@ function attack(attackIndex) {
 
     // Función para iniciar nueva batalla despúes de ganar la primera
     function iniciarNuevaBatalla() {
-        //logica para seleccionar al rival al aazar
+        // Lógica para seleccionar al rival al azar
         pokemonRival = seleccionarPkmnRivalAleatorio();
-        //reiniciar hp de pokemon
+        rival = new Pokemon(pokemonRival.nombre, pokemonRival.hp, movimientos[pokemonRival.nombre.toLowerCase()]);
+    
+        // Reiniciar HP de los Pokémon
         usuario.hp = 100;
-        pokemonRival.hp = 100;
-
+        rival.hp = 100;
+    
         actualizarBarraVida(usuario.hp, hpBarUsuario, vidaPkmnUsuario);
-        actualizarBarraVida(pokemonRival.hp, hpBarRival, vidaPkmnRival);
-
-        console.log('Empezo una nueva batalla');
+        actualizarBarraVida(rival.hp, hpBarRival, vidaPkmnRival);
+    
+        console.log('Empezó una nueva batalla');
     }
 
     function actualizarRecordDeBatallas() {
         if (numeroDeVictorias > recordDeBatallas) {
             recordDeBatallas = numeroDeVictorias;
 
-            localStorage.setItem('recordDeBatallas' , recordDeBatallas);
+            localStorage.setItem('recordDeBatallas' , recordDeBatallas);            
+            recordDisplay.textContent = `${recordDeBatallas}`;
         }
     }
 
     function reiniciarJuego() {
         localStorage.removeItem('usuario');
         localStorage.removeItem('pokemonSeleccionado');
-        numeroDeVictorias = 1;
+        numeroDeVictorias = 0;
         battleCountDisplay.textContent = `${numeroDeVictorias}`;
         window.location.reload();
     }
