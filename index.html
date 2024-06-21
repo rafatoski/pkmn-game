@@ -13,6 +13,11 @@
 <body>
     <header class="contenedor">
         <nav class="menu ">
+            <ul class="menu-items">
+                <li><a href="#"> Como Jugar </a></li>
+                <li><a href="#"> Ranking </a></li>                
+                <li><a href="presentacion.html">Autor</a></li>
+            </ul>
             <div class="view-menu">
                 <a href="./" class="brand">
                     <img src="./assets/images/pokeball.ico" alt="">
@@ -23,11 +28,6 @@
                 </button>
 
             </div>
-            <ul class="menu-items">
-                <li><a href="#"> Como Jugar </a></li>
-                <li><a href="#"> Ranking </a></li>                
-                <li><a href="presentacion.html">Autor</a></li>
-            </ul>
         </nav>
     </header>
     
@@ -107,7 +107,7 @@
 
                 <div class="moves">
                     <div class="subtitulo txt-center margin-y-0">Selecciona tu movimiento</div>
-                    <div id="attacks" class="ataques">
+                    <div id="attacks" class="moves_ataques">
                         <button class="btn ataque-a tipo" id="ataqueA"> 
                             movimiento A
                         </button> 
@@ -118,8 +118,18 @@
                     
                 </div> 
                 <div class="marcador">
-                    <h3 class="heading">Victorias: <span id="battle-count"> 0</span></h3>
-                    <h3 class="heading">Puntos: <span id="puntos"> 0 </span></h3>
+                    <div class="marcador_item">
+                        <h3>
+                            <i class="bi bi-stars marcador_item-history"></i>
+                            <span id="battle-count"> 0</span>
+                        </h3>
+                    </div>
+                    <div class="marcador_item">
+                        <h3>
+                            <i class="bi bi-trophy-fill marcador_item-trofeo"></i>
+                            <span id="puntos"> 0 </span>
+                        </h3>
+                    </div>
                 </div>
                 <div class="txt-center">
                     <button class=" margin-y btn-limpiar-localStorage margin-x-auto"> <i class="bi bi-clock"></i> Limpiar LocalStorage </button>

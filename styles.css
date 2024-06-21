@@ -45,12 +45,16 @@ body {
     background-image: url('assets/images/fondo_tile.png');
     background-repeat: repeat;
     color: var(--negro);
+    display: block;
     font-family: var(--font-family);
     font-size: var(--font-size-base);
     font-style: normal;
     font-weight: 400;
+    height: min-content;
     line-height: 1.7;
     margin: 0;
+    padding-bottom: 5rem;
+    position: relative;
 }
 
 /* Utility Classes */
@@ -79,8 +83,11 @@ body {
 /* Header */
 header {
     background-color: var(--blanco);
+    bottom: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 0.5rem 1rem;
+    position: fixed;
+    width: 100%;
 }
 
 /* Menu */
@@ -134,6 +141,7 @@ header {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    order: 2;
 }
 
 @keyframes slideDown {
@@ -384,9 +392,14 @@ footer {
     text-align: center;
     margin-bottom: 1rem;
 }
-.marcador .heading{
+.marcador_item{
+    font-size: var(--font-size-large);
     color: var(--negro);
     font-weight: bold;
+    line-height: 0;
+}
+.marcador_item-trofeo{
+    color: #FFC107;
 }
 
 .options{
@@ -465,7 +478,7 @@ footer {
 .moves{
     text-align: center;
 }
-.moves .ataques{
+.moves_ataques{
     align-items: center;
     display: flex;
     justify-content: center;   
@@ -499,11 +512,15 @@ footer {
     header {
         background-color: transparent;
         margin-top: 15px;
+        position: relative;
     }
 
     .menu {
         flex-direction: row;
         white-space: nowrap;
+    }
+    .view-menu{
+        order: 1;
     }
 
     .menu-btn {
@@ -515,6 +532,7 @@ footer {
         flex-direction: row;
         gap: 1.6rem;
         justify-content: flex-end;
+        order: 2;
     }
 
     .menu-items li {
@@ -532,11 +550,8 @@ footer {
     } 
     .pokemon-card {
         width: var(--card-width-large);
-    }
-    .options, .options .pkmn.card{
-        flex-direction: row;
-    }
-    .moves .ataques{
+    } 
+    .moves_ataques{
         gap: 2rem;
     }
 }
