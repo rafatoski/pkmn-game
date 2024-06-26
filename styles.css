@@ -83,6 +83,7 @@ body {
 /* Header */
 header {
     background-color: var(--blanco);
+    border-top: 2px solid var(--gris-oscuro);
     bottom: 0;    
     padding: 0.5rem 1rem;
     position: fixed;
@@ -135,6 +136,9 @@ header {
     font-weight: bold;
     text-decoration: none;
     white-space: nowrap;
+}
+.menu-items>.current>a {
+    border-bottom: 2px solid currentColor;
 }
 
 .view-menu {
@@ -282,7 +286,7 @@ footer {
 
 /* Autor Card */
 .autor_card {
-    align-items: center;
+    align-items: start;
     display: flex;
     flex-direction: column;
     margin: 20px auto;
@@ -292,7 +296,11 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-width: 250px;
+    width: 100%;
+    padding: 25px;
+    border-radius: var(--radius);
+    background-color: var(--gris-claro);
+    border: 5px solid var(--gris-oscuro);
     text-align: center;
 }
 
@@ -417,6 +425,25 @@ footer {
     margin: auto;
 }
 
+
+ul.inline {
+    padding: 0;
+    margin: 2rem auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+}
+ul.inline li{
+    display: inline-block;
+    aspect-ratio: 1/1;
+}
+ul.inline li>img{ 
+    height: 100%;
+    object-fit: contain;
+}
+
 .options_pkmnCard{
     display: flex;
     flex: 1;
@@ -494,7 +521,7 @@ footer {
 /* Media Queries */
 @media (min-width: 768px) {
     body {
-        font-size: 17px;
+        font-size: 16px;
     }
 
     .contenedor {
@@ -552,6 +579,10 @@ footer {
 
     .autor_card {
         flex-direction: row;
+    }
+    .autor_avatar {
+        max-width:340px;
+
     }
     .options_pkmnCard{
         width: var(--card-width-large);

@@ -275,7 +275,8 @@ function logBattle(messages, delays = [], callback) {
                     battleLog.scrollTop = battleLog.scrollHeight; // Scroll al final después de escribir
                     currentMessageIndex++;
                     if (currentMessageIndex < messages.length) {
-                        setTimeout(displayNextMessage, delays[currentMessageIndex]); // Espera antes de mostrar el siguiente mensaje
+                        const delay = delays[currentMessageIndex] || 1000; // Usar 1000 ms por defecto si no se proporciona un delay
+                        setTimeout(displayNextMessage, delay);
                     } else if (callback) {
                         battleLog.style.display = 'none';
                         callback(); // Llamar al callback una vez se han mostrado todos los mensajes
