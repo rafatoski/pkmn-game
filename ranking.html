@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Game - Simulator</title>
+    <link rel="icon" type="image/x-icon" href="./assets/images/pokeball.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="contenedor">
+        <nav class="menu ">
+            <ul class="menu-items">
+                <li><a href="#"> Como Jugar </a></li>
+                <li class="current"><a href="#"> Ranking </a></li>                
+                <li><a href="presentacion.html">Autor</a></li>
+            </ul>
+            <div class="view-menu">
+                <a href="./" class="brand">
+                    <img src="./assets/images/pokeball.ico" alt="">
+                    PKMN Battle
+                </a>
+                <button class="menu-btn" aria-label="Toggle Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+
+            </div>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+        <hgroup>
+            <h2 class="titulo">Ranking</h2>
+            <h5 class="subtitulo">Hall OF Fame</h5>
+        </hgroup> 
+
+        <div class="ranking-container">
+            <table class="ranking">
+                <thead>
+                    <tr>
+                        <th>Entrenador</th>
+                        <th>Pokemon</th>
+                        <th>Victorias</th>
+                    </tr>
+                </thead>
+              <tbody>
+                <tr>
+                  <td>Ash</td>
+                  <td>Pikachu</td>
+                  <td>15</td>
+                </tr>
+                <tr>
+                  <td>Red </td>
+                  <td>Charmander</td>
+                  <td>12</td>
+                </tr>
+                <tr>
+                  <td>Giovanny</td>
+                  <td>Mew</td>
+                  <td>10</td>
+                </tr>
+                <tr id="infoJugador" >
+                  <td><span id="nombreJugador"></span></td>
+                  <td><span id="pokemonJugador"></span></td>
+                  <td><span id="victoriasJugador"></span></td>
+                </tr>
+              </tbody>
+              </table>
+        </div>
+        <div class="margin-y txt-center">
+            <h2>Récord Actual</h2>
+            <p>Récord: <span id="recordActual"></span></p>
+        </div>
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const infoJugador = JSON.parse(localStorage.getItem('infoJugador')) || {};
+                const recordActual = localStorage.getItem('recordDeBatallas') || 0;
+    
+                document.getElementById('nombreJugador').textContent = infoJugador.nombre || 'N/A';
+                document.getElementById('pokemonJugador').textContent = infoJugador.pokemon || 'N/A';
+                document.getElementById('victoriasJugador').textContent = infoJugador.victorias || 0;
+                document.getElementById('recordActual').textContent = recordActual;
+            });
+        </script>
+        
+    </main>
+
+    <footer>
+        <p class="fw-bold">©️ 2024</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>

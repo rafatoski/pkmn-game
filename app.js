@@ -367,71 +367,110 @@ function attack(attackIndex) {
     function endBattle(result) {
         if (result === 'win') {
             numeroDeVictorias++;
-            pokemonRival = seleccionarPkmnRivalAleatorio();
-            battleCountDisplay.textContent =` ${numeroDeVictorias}`;
-            logBattle(["El rival murio, ¡Has ganado la batalla !"] ,[3000], ()=> {
-                iniciarNuevaBatalla();//reinicia la battle
+            battleCountDisplay.textContent = `${numeroDeVictorias}`;
+            logBattle(["¡Has ganado la batalla!"], [3000], () => {
+                iniciarNuevaBatalla();
             });
         } else {
-            logBattle(["Tu Pokemon ha muerto, has perdido la batalla..."] , [1000], ()=> {
-                actualizarRecordDeBatallas();                
-                console.log('Fin del juego. ');
-                Resultado();
+            logBattle(["Tu Pokémon ha sido derrotado. La batalla ha terminado."], [3000], () => {
+                actualizarRecordDeBatallas();
+                guardarHistorialBatallas();
+                guardarInfoJugador();
+                mostrarResultado();
+                console.log('Fin del juego.');
             });
         }
     }
 
-    function Resultado() {
+    function mostrarResultado() {
         batalla.style.display = "none";
         resultado.style.display = "block";
-
+    
         document.querySelector(".puntos").textContent = `${numeroDeVictorias}`;
+        document.querySelector(".victorias").textContent = `${numeroDeVictorias}`;
+
+        if (puntosElement) puntosElement.textContent = `${numeroDeVictorias}`;
+        if (victoriasElement) victoriasElement.textContent = `${numeroDeVictorias}`;
     }
 
     function seleccionarPkmnRivalAleatorio() {
         const rivalesDisponibles = [
-            { nombre: "charmander", hp: 100 },
-            { nombre: "squirtle", hp: 100 },
-            { nombre: "bulbasaur", hp: 100 },
-            { nombre: "pikachu", hp: 100 }
+            { nombre: "Charmander", hp: 100, movimientos: [movimientos.lanzallamas, movimientos.golpecuerpo] },
+            { nombre: "Squirtle", hp: 100, movimientos: [movimientos.pistolaagua, movimientos.aranazo] },
+            { nombre: "Bulbasaur", hp: 100, movimientos: [movimientos.latigocepa, movimientos.ataquerapido] },
+            { nombre: "Pikachu", hp: 100, movimientos: [movimientos.impactrueno, movimientos.aranazo] }
         ];
     
         // Seleccionar Mew cada 4 victorias
         if ((numeroDeVictorias + 1) % 4 === 0) {
-            return { nombre: 'Mew', hp: 100 };
+            return new Pokemon('Mew', 100, [movimientos.psiquico, movimientos.ataquerapido]);
         }
     
         // Seleccionar un rival al azar
         const indiceAleatorio = Math.floor(Math.random() * rivalesDisponibles.length);
-        return rivalesDisponibles[indiceAleatorio];
+        const rivalSeleccionado = rivalesDisponibles[indiceAleatorio];
+        return new Pokemon(rivalSeleccionado.nombre, rivalSeleccionado.hp, rivalSeleccionado.movimientos);
     }
-
 
     // Función para iniciar nueva batalla despúes de ganar la primera
     function iniciarNuevaBatalla() {
-        // Lógica para seleccionar al rival al azar
-        pokemonRival = seleccionarPkmnRivalAleatorio();
-        rival = new Pokemon(pokemonRival.nombre, pokemonRival.hp, movimientos[pokemonRival.nombre.toLowerCase()]);
+        // Seleccionar nuevo rival
+        rival = seleccionarPkmnRivalAleatorio();
     
         // Reiniciar HP de los Pokémon
         usuario.hp = 100;
         rival.hp = 100;
     
+        // Actualizar la interfaz
+        pokemonRivalSpan.textContent = rival.nombre;
+        pokemonRivalImg.src = `./assets/images/${rival.nombre.toLowerCase()}.png`;
+    
         actualizarBarraVida(usuario.hp, hpBarUsuario, vidaPkmnUsuario);
         actualizarBarraVida(rival.hp, hpBarRival, vidaPkmnRival);
     
-        console.log('Empezó una nueva batalla');
+        // Habilitar botones de ataque
+        ataqueA.disabled = false;
+        ataqueB.disabled = false;
+    
+        // Mostrar mensaje de nueva batalla
+        logBattle(["¡Una nueva batalla ha comenzado!"], [1000], () => {
+            // Aquí puedes agregar cualquier otra lógica necesaria después de iniciar la nueva batalla
+        });
     }
 
     function actualizarRecordDeBatallas() {
-        if (numeroDeVictorias > recordDeBatallas) {
-            recordDeBatallas = numeroDeVictorias;
-
-            localStorage.setItem('recordDeBatallas' , recordDeBatallas);            
-            recordDisplay.textContent = `${recordDeBatallas}`;
+        const recordActual = localStorage.getItem('recordDeBatallas') || 0;
+        if (numeroDeVictorias > recordActual) {
+            recordActual = numeroDeVictorias;
+            localStorage.setItem('recordDeBatallas', recordActual);            
+            recordDisplay.textContent = recordDeBatallas;
         }
+
+        document.getElementById('recordActual').textContent = recordActual;
     }
 
+    function guardarHistorialBatallas() {
+        let historial = JSON.parse(localStorage.getItem('historialBatallas')) || [];
+        historial.push({
+            fecha: new Date().toISOString(),
+            victorias: numeroDeVictorias,
+            entrenador: nombreUsuario
+        });
+        // Ordenar el historial por número de victorias (de mayor a menor)
+        historial.sort((a, b) => b.victorias - a.victorias);
+        // Mantener solo los top 10
+        historial = historial.slice(0, 10);
+        localStorage.setItem('historialBatallas', JSON.stringify(historial));
+    }
+
+    function guardarInfoJugador() {
+        const infoJugador = {
+            nombre: nombreUsuario,
+            pokemon: pokemonSeleccionado,
+            victorias: numeroDeVictorias
+        };
+        localStorage.setItem('infoJugador', JSON.stringify(infoJugador));
+    }
     function reiniciarJuego() {
         localStorage.removeItem('usuario');
         localStorage.removeItem('pokemonSeleccionado');

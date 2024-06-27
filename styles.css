@@ -425,6 +425,30 @@ footer {
     margin: auto;
 }
 
+.ranking-container{
+    display: block;
+    overflow-x: scroll;
+}
+.ranking{
+    border: 5px solid var(--gris-claro);
+    border-radius: var(--radius);
+    display: table;
+    overflow-x: scroll;
+    padding: .5rem;
+    text-align: center;
+    width: 100%;
+}
+.ranking thead{
+    background-color: var(--gris-claro);
+}
+.ranking td, .ranking th{
+    padding: 1rem ;
+    height: auto;
+}
+
+.ranking tbody>tr:hover {
+    background-color: var(--gris-claro);
+}
 
 ul.inline {
     padding: 0;
